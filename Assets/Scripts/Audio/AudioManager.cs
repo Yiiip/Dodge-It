@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    private static AudioManager instance;
+    private static AudioManager sInstance;
 
     public static AudioManager Instance
     {
         get
         {
-            return instance;
+            return sInstance;
         }
     }
 
@@ -34,17 +34,18 @@ public class AudioManager : MonoBehaviour
 
     private string soundVolumePrefs = "SoundVolume";
 
-    private int poolCount = 3; // 对象池数量
+    private int poolCount = 8; // 对象池数量
+
+    private AudioManager() {}
 
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-        instance = this;
+        sInstance = this;
 
         audioPathDict = new Dictionary<int, string>() // 这里设置音频文件路径。需要修改。 TODO
         {
-            // { 1, "AudioClip/Music/MainMenuScene" },
-            // { 2, "AudioClip/Music/BattleScene" }, 
+            { 0, "Audio/BGM/bg_classical" },
             // { 11, "AudioClip/Sound/Sound1" }, 
             // { 12, "AudioClip/Sound/Sound2" }, 
             // { 13, "AudioClip/Sound/Sound3" }, 
@@ -67,7 +68,7 @@ public class AudioManager : MonoBehaviour
         }
         if (PlayerPrefs.HasKey(soundVolumePrefs))
         {
-            musicVolume = PlayerPrefs.GetFloat(soundVolumePrefs);
+            soundVolume = PlayerPrefs.GetFloat(soundVolumePrefs);
         }
     }
 
@@ -75,18 +76,18 @@ public class AudioManager : MonoBehaviour
     /// 播放背景音乐
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="loop"></param>
-    public void PlayMusic(int id, bool loop = true)
+    /// <param name="isLoop"></param>
+    public void PlayMusic(int id, bool isLoop = true, float fadeTime = 0.5f)
     {
-        // 通过Tween将声音淡入淡出
-        DOTween.To(() => musicAudioSource.volume, value => musicAudioSource.volume = value, 0, 0.5f).OnComplete(() =>
+        // 通过DOTween将声音淡入淡出
+        DOTween.To(() => musicAudioSource.volume, value => musicAudioSource.volume = value, 0, fadeTime).OnComplete(() =>
         {
             musicAudioSource.clip = GetAudioClip(id);
             musicAudioSource.clip.LoadAudioData();
-            musicAudioSource.loop = loop;
+            musicAudioSource.loop = isLoop;
             musicAudioSource.volume = musicVolume;
             musicAudioSource.Play();
-            DOTween.To(() => musicAudioSource.volume, value => musicAudioSource.volume = value, musicVolume, 0.5f);
+            DOTween.To(() => musicAudioSource.volume, value => musicAudioSource.volume = value, musicVolume, fadeTime);
         });
     }
 
