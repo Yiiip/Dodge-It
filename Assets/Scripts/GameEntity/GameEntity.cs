@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GameEntity : MonoBehaviour
 {
-    public float Speed;
-    public Rigidbody2D Rigidbody;
-
-    protected Vector2 moveVelocity;
+    [SerializeField]
+    protected float mSpeed;
+    protected Vector2 mMoveVelocity;
+    protected float mLife;
 
     protected virtual void Start()
     {
@@ -24,6 +24,16 @@ public class GameEntity : MonoBehaviour
 
     protected void DoMove()
     {
-        Rigidbody.MovePosition(Rigidbody.position + moveVelocity * Time.fixedDeltaTime);
+        Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+        if (rigidbody != null)
+        {
+            rigidbody.MovePosition(rigidbody.position + mMoveVelocity * Time.fixedDeltaTime);
+        }
+    }
+
+    public float Life
+    {
+        set { mLife = value; }
+        get { return mLife; }
     }
 }

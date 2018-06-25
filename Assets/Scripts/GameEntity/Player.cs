@@ -4,11 +4,40 @@ using UnityEngine;
 
 public class Player : GameEntity
 {
-    protected const float DEFAULT_SPEED = 7.0f;
+    public static float DEFAULT_SPEED = 7.0f;
+    public static float DEFAULT_LIFE = 3;
+    public static int MAX_SCORE = 999999;
+    public static int MAX_SKILL = 5;
+
+    private int mScore;
+    private int mSkill;
+
+    public int Score
+    {
+        set { mScore = Mathf.Clamp(value, 0, MAX_SCORE); }
+        get { return mScore; }
+    }
+
+    public int Skill
+    {
+        set { mSkill = Mathf.Clamp(value, 0, MAX_SKILL); }
+        get { return mSkill; }
+    }
+
+    private void InitSelf()
+    {
+        base.mSpeed = DEFAULT_SPEED;
+        base.mLife = DEFAULT_LIFE;
+        this.transform.position = new Vector2(Random.Range(-5.0f, 5.0f), Random.Range(-4.0f, 4.0f));
+        this.mSkill = 0;
+        this.mScore = 0;
+    }
 
     protected override void Start()
     {
-        Speed = DEFAULT_SPEED;
+        base.Start();
+        InitSelf();
+        // AudioManager.Instance.PlayMusic(0, true, 0.0f);
     }
 
     protected override void Update()
@@ -25,6 +54,6 @@ public class Player : GameEntity
     protected void UpdateVelocityByKeyboard()
     {
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        moveVelocity = input.normalized * Speed;
+        mMoveVelocity = input.normalized * mSpeed;
     }
 }
