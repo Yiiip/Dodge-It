@@ -7,9 +7,10 @@ public class EnemyFollower : GameEntity
     public static float DEFAULT_SPEED = 2.0f;
     public static float MAX_LIFE = 2;
 
+    public GameObject HitEffect;
+
     protected Transform mTargetPos;
     protected Player mTarget;
-
     protected int mScoreValue;
 
     protected void InitSelf()
@@ -44,6 +45,13 @@ public class EnemyFollower : GameEntity
     }
 
     protected void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("PlayerBullet"))
+        {
+            mTarget.Score += mScoreValue;
+            Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+        }
     }
 
     protected void OnCollisionEnter2D(Collision2D other)
@@ -51,14 +59,10 @@ public class EnemyFollower : GameEntity
         if (other.collider.CompareTag(mTarget.gameObject.tag))
         {
             mTarget.Life -= 1;
+            Instantiate(HitEffect, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
 
-        if (other.collider.CompareTag("PlayerBullet"))
-        {
-            mTarget.Score += mScoreValue;
-            Destroy(this.gameObject);
-            Destroy(other.gameObject);
-        }
+        
     }
 }

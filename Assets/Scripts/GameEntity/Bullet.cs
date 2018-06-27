@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     protected void InitSelf()
     {
         this.Speed = 10.0f + Random.Range(-2, 2);
-        this.mTargetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) *2;
+        this.mTargetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) * 10;
     }
 
     private void Update()
@@ -28,10 +28,17 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void OnCollisionEnter2D(Collision2D other) {
-        if (other.collider.CompareTag("MapBound"))
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    // protected void OnTriggerEnter2D(Collider2D other) {
+    //     if (other.CompareTag("MapBound"))
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
+
+    // protected void OnCollisionEnter2D(Collision2D other) {
+    //     if (other.collider.CompareTag("MapBound"))
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : GameEntity
 {
@@ -54,6 +55,13 @@ public class Player : GameEntity
     protected override void Update()
     {
         base.Update();
+
+        if (mLife <= 0)
+        {
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("Life = 0!");
+        }
+
         UpdateVelocityByKeyboard();
         Shooting();
     }
