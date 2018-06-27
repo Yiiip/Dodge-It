@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
 			{
 				if (mCounter < mLevelMaxEnemyCount[mLevel])
 				{
-					Instantiate(EnemyFollower, EnemyFollowerSpawnersPos[Random.Range(0, EnemyFollowerSpawnersPos.Length - 1)].position, Quaternion.identity);
+					Instantiate(EnemyFollower, EnemyFollowerSpawnersPos[Random.Range(0, EnemyFollowerSpawnersPos.Length)].position, Quaternion.identity);
 					mCounter++;
 					mSpawnTimer = ENEMY_FOLLOWER_SPAWN_TIME;
 				}

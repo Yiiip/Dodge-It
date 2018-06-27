@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114135185794872198}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -261,6 +261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mSpeed: 0
+  PlayerBullets:
+  - {fileID: 1762970798855438, guid: 3e3104b1f8d03eb48ad314c5067fce25, type: 2}
 --- !u!198 &198864762029001352
 ParticleSystem:
   m_ObjectHideFlags: 1
