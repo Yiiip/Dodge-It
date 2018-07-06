@@ -48,7 +48,7 @@ public class EnemyFollower : GameEntity
         if (other.CompareTag("PlayerBullet"))
         {
             mTarget.Score += mScoreValue;
-            Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+            Instantiate(HitEffect, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
             Destroy(other.gameObject);
         }
@@ -59,7 +59,7 @@ public class EnemyFollower : GameEntity
         if (other.collider.CompareTag(mTarget.gameObject.tag))
         {
             mTarget.Life -= 1;
-            Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+            Instantiate(HitEffect, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
         }
 

@@ -91,6 +91,11 @@ public class AudioManager : MonoBehaviour
         });
     }
 
+    public void StopMusic()
+    {
+        musicAudioSource.Stop();
+    }
+
     /// <summary>
     /// 播放音效
     /// </summary>

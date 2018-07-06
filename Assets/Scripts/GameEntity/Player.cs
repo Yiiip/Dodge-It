@@ -58,8 +58,9 @@ public class Player : GameEntity
 
         if (mLife <= 0)
         {
-            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            Debug.Log("Life = 0!");
+            AudioManager.Instance.StopMusic();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // Debug.Log("Life = 0!");
         }
 
         UpdateVelocityByKeyboard();
