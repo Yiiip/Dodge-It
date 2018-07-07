@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public float Speed;
 
+    private Vector2 mStartPos;
     private Vector2 mTargetPos;
 
     private void Start() {
@@ -14,8 +15,17 @@ public class Bullet : MonoBehaviour
 
     protected void InitSelf()
     {
-        this.Speed = 10.0f + Random.Range(-2, 2);
-        this.mTargetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition) * 10;
+        this.mStartPos = this.transform.position;
+        // Debug.Log("子弹起始" + mStartPos);
+
+        this.mTargetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        float angle = Mathf.Atan2(mTargetPos.y - mStartPos.y, mTargetPos.x - mStartPos.x) * Mathf.Rad2Deg;
+        if (angle < -90 || angle > 90) { angle = -angle; }
+        float farX = mTargetPos.x + 20.0f * Mathf.Sign(mTargetPos.x - mStartPos.x);
+        float farY = mTargetPos.y + 20.0f * Mathf.Tan(angle * Mathf.Deg2Rad);
+        // Debug.Log("angle: " + angle);
+        this.mTargetPos = new Vector2(farX, farY);
+        // Debug.Log("子弹目标" + mTargetPos);
     }
 
     private void Update()

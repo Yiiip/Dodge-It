@@ -8,6 +8,7 @@ public class PlayingUIScript : MonoBehaviour
 	private const string STR_SCORE = "SCORE:";
 
 	public Player PlayerRef;
+	public GameObject MouseCursor;
 	public TextMeshProUGUI textSocre;
 	public GameObject ParentLifeIcons;
 	public GameObject ParentSkillIcons;
@@ -21,6 +22,8 @@ public class PlayingUIScript : MonoBehaviour
 
 	void Start()
 	{
+		Cursor.visible = false;
+
 		InitViews();
 	}
 
@@ -48,6 +51,8 @@ public class PlayingUIScript : MonoBehaviour
 
 	void Update()
 	{
+		MouseCursor.transform.position = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+
 		UpdateScoreUI();
 		UpdateLifeIcons();
 		UpdateSkillIcons();
