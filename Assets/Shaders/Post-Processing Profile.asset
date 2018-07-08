@@ -69,9 +69,9 @@ MonoBehaviour:
       screenEdgeMask:
         intensity: 0.03
   depthOfField:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
-      focusDistance: 10
+      focusDistance: 9
       aperture: 1.4
       focalLength: 84
       useCameraFov: 0
@@ -79,9 +79,9 @@ MonoBehaviour:
   motionBlur:
     m_Enabled: 1
     m_Settings:
-      shutterAngle: 250
+      shutterAngle: 192
       sampleCount: 10
-      frameBlending: 0.1
+      frameBlending: 0.677
   eyeAdaptation:
     m_Enabled: 0
     m_Settings:

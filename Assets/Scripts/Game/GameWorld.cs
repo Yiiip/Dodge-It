@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class GameWorld : MonoBehaviour
 {
-    private GameWorld sInstance;
+    private static GameWorld sInstance;
 
-    public GameWorld Instance
+    private GameState mState;
+    public Player Player;
+    public WaveEngine WaveEngine;
+
+    public static GameWorld Instance
     {
-        get
-        {
-            return this.sInstance;
-        }
+        get {  return sInstance; }
+    }
+
+    public GameState State
+    {
+        get { return mState; }
+        set { mState = value; }
     }
 
     private void Awake() {
         if (sInstance == null)
         {
-            this.sInstance = this;
+            sInstance = this;
         }
         else
         {
@@ -25,7 +32,34 @@ public class GameWorld : MonoBehaviour
         }
     }
 
-    private void OnDestroy() {
-        this.sInstance = null;
+    private void Start() {
+        mState = GameState.MAIN_MENU;
+        PlayBGM(); 
     }
+
+    private void PlayBGM()
+    {
+        AudioManager.Instance.PlayMusic(0, true, 0.0f);
+    }
+
+    private void Update() {
+        if (mState == GameState.PLAYING)
+        {
+            if (!Player.gameObject.active && !WaveEngine.gameObject.active)
+            {
+                UIUtils.SetVisibility(Player.gameObject, true);
+                UIUtils.SetVisibility(WaveEngine.gameObject, true);
+            }
+        }
+    }
+
+    private void OnDestroy() {
+        sInstance = null;
+    }
+}
+
+public enum GameState
+{
+    MAIN_MENU,
+    PLAYING
 }

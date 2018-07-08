@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFollower : GameEntity
+public class EnemyTail : GameEntity
 {
-    public static float DEFAULT_SPEED = 2.0f;
-    public static float MAX_LIFE = 2;
+    public static float DEFAULT_SPEED = 4.0f;
+    public static float MAX_LIFE = 1;
 
     public GameObject HitEffect;
-
-    protected Transform mTargetPos;
     protected Player mTarget;
+
     protected int mScoreValue;
+    protected Vector2 mDirVec;
 
     protected void InitSelf()
     {
-        base.mSpeed = DEFAULT_SPEED;
+        base.mSpeed = DEFAULT_SPEED + Random.Range(0, 5);
         base.mLife = MAX_LIFE;
-        this.mScoreValue = 25;
+        this.mScoreValue = 30;
         this.mTarget = GameWorld.Instance.Player;
-        this.mTargetPos = mTarget.gameObject.transform;
+        do
+        {
+            this.mDirVec = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized;
+        } while (this.mDirVec.x == 0.0f || this.mDirVec.y == 0.0f);
     }
 
     protected virtual void Start()
@@ -29,17 +32,12 @@ public class EnemyFollower : GameEntity
 
     protected virtual void Update()
     {
-        UpdateFollow();
+        mMoveVelocity = mDirVec * mSpeed;
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-    }
-
-    private void UpdateFollow()
-    {
-        mMoveVelocity = (mTargetPos.position - this.transform.position).normalized * mSpeed;
     }
 
     protected void OnTriggerEnter2D(Collider2D other)
@@ -56,6 +54,7 @@ public class EnemyFollower : GameEntity
         }
     }
 
+    private Collision2D mLastMapBound;
     protected void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.CompareTag(mTarget.gameObject.tag))
@@ -63,6 +62,26 @@ public class EnemyFollower : GameEntity
             mTarget.Life -= 1;
             Instantiate(HitEffect, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
+        }
+
+        if (other.collider.tag.Equals("MapBound"))
+        {
+            if (mLastMapBound == null)
+            {
+                mLastMapBound = other;
+            }
+            else
+            {
+                if (mLastMapBound == other)
+                {
+                    return;
+                }
+            }
+            ContactPoint2D contactPoint = other.contacts[0];
+            Debug.Log("法线" + contactPoint.normal);
+            Debug.Log("反弹前" + mDirVec);
+            mDirVec = Vector2.Reflect(mDirVec, contactPoint.normal); //反弹
+            Debug.Log("反弹后" + mDirVec);
         }
     }
 }

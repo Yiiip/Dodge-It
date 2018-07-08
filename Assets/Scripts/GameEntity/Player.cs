@@ -39,23 +39,13 @@ public class Player : GameEntity
         this.mBulletLevel = 0;
     }
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
         InitSelf();
-
-        PlayBGM();
     }
 
-    private void PlayBGM()
+    protected virtual void Update()
     {
-        AudioManager.Instance.PlayMusic(0, true, 0.0f);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
         if (mLife <= 0)
         {
             AudioManager.Instance.StopMusic();

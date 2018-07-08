@@ -9,14 +9,6 @@ public class GameEntity : MonoBehaviour
     protected Vector2 mMoveVelocity;
     protected float mLife;
 
-    protected virtual void Start()
-    {
-    }
-
-    protected virtual void Update()
-    {
-    }
-
     protected virtual void FixedUpdate()
     {
         DoMove();

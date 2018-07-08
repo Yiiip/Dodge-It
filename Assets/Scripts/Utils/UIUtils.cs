@@ -61,6 +61,12 @@ public static class UIUtils
 		if (gameObject != null) gameObject.SetActive(visible);
 	}
 
+	public static bool IsVisibility(GameObject gameObject)
+	{
+		if (gameObject != null) return gameObject.active;
+		else return false;
+	}
+
 	public static void SetParent(GameObject view, Transform parentTrans)
 	{
 		if (view != null) view.transform.SetParent(parentTrans, false);
