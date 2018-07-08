@@ -22,9 +22,12 @@ public class EnemyFollower : GameEntity
         this.mTargetPos = mTarget.gameObject.transform;
     }
 
+    protected virtual void Awake() {
+        InitSelf();
+    }
+
     protected virtual void Start()
     {
-        InitSelf();
     }
 
     protected virtual void Update()

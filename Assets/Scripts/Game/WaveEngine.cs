@@ -15,6 +15,7 @@ public class WaveEngine : MonoBehaviour {
         public GameEntity enemy;
         public int count;
         public float rate;
+        public int difficulty;
     }
 
     public Wave[] waves;
@@ -83,7 +84,7 @@ public class WaveEngine : MonoBehaviour {
 
         for (int i = 0; i < wave.count; i++)
         {
-            SpawnEnemy(wave.enemy);
+            SpawnEnemy(wave.enemy, wave.difficulty);
             yield return new WaitForSeconds(1.0f / wave.rate);
         }
 
@@ -91,10 +92,14 @@ public class WaveEngine : MonoBehaviour {
         yield break;
     }
 
-    protected void SpawnEnemy(GameEntity enemy)
+    protected void SpawnEnemy(GameEntity enemy, int difficulty)
     {
         Transform spawnPos = spawnPositions[Random.Range(0, spawnPositions.Length)];
-        Instantiate(enemy, spawnPos.position, spawnPos.rotation);
+        GameEntity e = Instantiate(enemy, spawnPos.position, spawnPos.rotation);
+        if (e is EnemyFollower)
+        {
+            e.Speed = e.Speed + difficulty * 0.4f;
+        }
     }
 
     protected void WaveCompleted()

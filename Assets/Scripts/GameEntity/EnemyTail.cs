@@ -78,10 +78,10 @@ public class EnemyTail : GameEntity
                 }
             }
             ContactPoint2D contactPoint = other.contacts[0];
-            Debug.Log("法线" + contactPoint.normal);
-            Debug.Log("反弹前" + mDirVec);
+            // Debug.Log("法线" + contactPoint.normal);
+            // Debug.Log("反弹前" + mDirVec);
             mDirVec = Vector2.Reflect(mDirVec, contactPoint.normal); //反弹
-            Debug.Log("反弹后" + mDirVec);
+            // Debug.Log("反弹后" + mDirVec);
         }
     }
 }

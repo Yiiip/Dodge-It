@@ -28,4 +28,10 @@ public class GameEntity : MonoBehaviour
         set { mLife = value; }
         get { return mLife; }
     }
+
+    public float Speed
+    {
+        set { mSpeed = value; }
+        get { return mSpeed; }
+    }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PostProcessing.Utilities;
 
 public class PlayingUIScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayingUIScript : MonoBehaviour
 	private float mTextHitStartAlpha;
 	private bool mTextHitStartAlphaFlag;
 	public GameObject MainEnemies;
+	private PostProcessingController ppController;
 
 	public Player PlayerRef;
 	public GameObject MouseCursor;
@@ -39,6 +41,8 @@ public class PlayingUIScript : MonoBehaviour
 		mTextHitStartAlpha = TextHitStart.transform.localScale.y;
 		if (mTextHitStartAlpha >= 1.0f) mTextHitStartAlphaFlag = true;
 		else if (mTextHitStartAlpha <= 0.04f) mTextHitStartAlphaFlag = false;
+
+		ppController = Camera.main.GetComponent<PostProcessingController>();
 	}
 
 	private void InitViews()
@@ -47,7 +51,7 @@ public class PlayingUIScript : MonoBehaviour
 		for (int i = 0; i < (int) Player.DEFAULT_LIFE; i++)
 		{
 			GameObject lifeIcon = UIUtils.InstantiatePrefab(PrefabLifeIcon, ParentLifeIcons);
-			lifeIcon.transform.position = new Vector3(lifeIcon.transform.position.x - i * 18, lifeIcon.transform.position.y, lifeIcon.transform.position.z);
+			lifeIcon.transform.position = new Vector3(lifeIcon.transform.position.x - i * 17, lifeIcon.transform.position.y, lifeIcon.transform.position.z);
 			UIUtils.SetVisibility(lifeIcon, true);
 			mLifeIconVisibleCount++;
 			mLifeIcons.Add(lifeIcon);
@@ -57,7 +61,7 @@ public class PlayingUIScript : MonoBehaviour
 		for (int i = 0; i < (int) Player.MAX_SKILL; i++)
 		{
 			GameObject skillIcon = UIUtils.InstantiatePrefab(PrefabSkillIcon, ParentSkillIcons);
-			skillIcon.transform.position = new Vector3(skillIcon.transform.position.x - i * 18, skillIcon.transform.position.y, skillIcon.transform.position.z);
+			skillIcon.transform.position = new Vector3(skillIcon.transform.position.x - i * 17, skillIcon.transform.position.y, skillIcon.transform.position.z);
 			UIUtils.SetVisibility(skillIcon, false);
 			mLifeIcons.Add(skillIcon);
 		}
@@ -76,6 +80,7 @@ public class PlayingUIScript : MonoBehaviour
 			{
 				UIUtils.SetVisibility(PlayingHUD, false);
 				UIUtils.SetVisibility(MainMenu, true);
+				ppController.enableDepthOfField = true;
 			}
 			UpdateMainMenuUIEffects();
 
@@ -95,6 +100,7 @@ public class PlayingUIScript : MonoBehaviour
 			{
 				UIUtils.SetVisibility(MainMenu, false);
 				UIUtils.SetVisibility(PlayingHUD, true);
+				ppController.enableDepthOfField = false;
 				Destroy(MainEnemies);
 			}
 			MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
