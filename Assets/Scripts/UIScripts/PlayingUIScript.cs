@@ -42,7 +42,7 @@ public class PlayingUIScript : MonoBehaviour
 	{
 		mTextHitStartAlpha = TextHitStart.transform.localScale.y;
 		if (mTextHitStartAlpha >= 1.0f) mTextHitStartAlphaFlag = true;
-		else if (mTextHitStartAlpha <= 0.04f) mTextHitStartAlphaFlag = false;
+		else if (mTextHitStartAlpha <= 0.2f) mTextHitStartAlphaFlag = false;
 
 		ppController = Camera.main.GetComponent<PostProcessingController>();
 	}
@@ -117,13 +117,14 @@ public class PlayingUIScript : MonoBehaviour
 	private void UpdateMainMenuUIEffects()
 	{
 		if (mTextHitStartAlpha >= 1.0f) mTextHitStartAlphaFlag = true;
-		else if (mTextHitStartAlpha <= 0.04f) mTextHitStartAlphaFlag = false;
+		else if (mTextHitStartAlpha <= 0.2f) mTextHitStartAlphaFlag = false;
 
 		if (mTextHitStartAlphaFlag) mTextHitStartAlpha -= Time.deltaTime * 1.2f;
 		else mTextHitStartAlpha += Time.deltaTime * 1.2f;
-
-		// TextHitStart.transform.localScale = new Vector2(1.0f, mTextHitStartScaleY);
 		TextHitStart.color = new Color(TextHitStart.color.r, TextHitStart.color.g, TextHitStart.color.b, mTextHitStartAlpha);
+
+		if (mTextHitStartAlphaFlag) TextHitStart.transform.localScale -= new Vector3(mTextHitStartAlpha * 0.002f, mTextHitStartAlpha * 0.002f, 0.0f);
+		else TextHitStart.transform.localScale += new Vector3(mTextHitStartAlpha * 0.002f, mTextHitStartAlpha * 0.002f, 0.0f);
 	
 		//Move ui around mouse
 		Vector2 mouseViewportPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
