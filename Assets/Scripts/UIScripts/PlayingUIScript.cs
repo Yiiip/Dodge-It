@@ -12,6 +12,8 @@ public class PlayingUIScript : MonoBehaviour
 	public TextMeshProUGUI TextHitStart;
 	private float mTextHitStartAlpha;
 	private bool mTextHitStartAlphaFlag;
+	public GameObject KeyboardHitArea;
+	private Vector3 mKeyboardHitAreaOriginPos;
 	public GameObject MainEnemies;
 	private PostProcessingController ppController;
 
@@ -51,7 +53,7 @@ public class PlayingUIScript : MonoBehaviour
 		for (int i = 0; i < (int) Player.DEFAULT_LIFE; i++)
 		{
 			GameObject lifeIcon = UIUtils.InstantiatePrefab(PrefabLifeIcon, ParentLifeIcons);
-			lifeIcon.transform.position = new Vector3(lifeIcon.transform.position.x - i * 17, lifeIcon.transform.position.y, lifeIcon.transform.position.z);
+			lifeIcon.transform.position = new Vector3(lifeIcon.transform.position.x - i * 18, lifeIcon.transform.position.y, lifeIcon.transform.position.z);
 			UIUtils.SetVisibility(lifeIcon, true);
 			mLifeIconVisibleCount++;
 			mLifeIcons.Add(lifeIcon);
@@ -61,10 +63,12 @@ public class PlayingUIScript : MonoBehaviour
 		for (int i = 0; i < (int) Player.MAX_SKILL; i++)
 		{
 			GameObject skillIcon = UIUtils.InstantiatePrefab(PrefabSkillIcon, ParentSkillIcons);
-			skillIcon.transform.position = new Vector3(skillIcon.transform.position.x - i * 17, skillIcon.transform.position.y, skillIcon.transform.position.z);
+			skillIcon.transform.position = new Vector3(skillIcon.transform.position.x - i * 18, skillIcon.transform.position.y, skillIcon.transform.position.z);
 			UIUtils.SetVisibility(skillIcon, false);
 			mLifeIcons.Add(skillIcon);
 		}
+
+		mKeyboardHitAreaOriginPos = KeyboardHitArea.transform.position;
 	}
 
 	void Update()
@@ -120,6 +124,19 @@ public class PlayingUIScript : MonoBehaviour
 
 		// TextHitStart.transform.localScale = new Vector2(1.0f, mTextHitStartScaleY);
 		TextHitStart.color = new Color(TextHitStart.color.r, TextHitStart.color.g, TextHitStart.color.b, mTextHitStartAlpha);
+	
+		//Move ui around mouse
+		Vector2 mouseViewportPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		mouseViewportPos = mouseViewportPos * 2 - Vector2.one;
+		Vector3 newPos = KeyboardHitArea.transform.position + new Vector3(mouseViewportPos.x, mouseViewportPos.y, 0.0f);
+		if (Mathf.Abs(newPos.x - mKeyboardHitAreaOriginPos.x) < 10.0f)
+		{
+			KeyboardHitArea.transform.position = new Vector3(newPos.x, KeyboardHitArea.transform.position.y, KeyboardHitArea.transform.position.z);
+		}
+		if (Mathf.Abs(newPos.y - mKeyboardHitAreaOriginPos.y) < 10.0f)
+		{
+			KeyboardHitArea.transform.position = new Vector3(KeyboardHitArea.transform.position.x, newPos.y, KeyboardHitArea.transform.position.z);
+		}
 	}
 
 	private void UpdateScoreUI()

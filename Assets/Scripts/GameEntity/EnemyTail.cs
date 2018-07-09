@@ -13,6 +13,15 @@ public class EnemyTail : GameEntity
     protected int mScoreValue;
     protected Vector2 mDirVec;
 
+    public bool RandomSprite = true;
+    protected SpriteRenderer mSpriteRenderer;
+    protected string[] mSprites = {
+        "Sprites/sEnemyBlue",
+        "Sprites/sEnemyRed",
+        "Sprites/sEnemyYellow",
+        "Sprites/sEnemyFollower",
+    };
+
     protected void InitSelf()
     {
         base.mSpeed = DEFAULT_SPEED + Random.Range(0, 5);
@@ -23,6 +32,11 @@ public class EnemyTail : GameEntity
         {
             this.mDirVec = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized;
         } while (this.mDirVec.x == 0.0f || this.mDirVec.y == 0.0f);
+        this.mSpriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        if (RandomSprite)
+        {
+            this.mSpriteRenderer.sprite = (Resources.Load(mSprites[Random.Range(0, mSprites.Length)]) as GameObject).GetComponent<SpriteRenderer>().sprite;
+        }
     }
 
     protected virtual void Start()

@@ -34,7 +34,7 @@ public class GameWorld : MonoBehaviour
 
     private void Start() {
         mState = GameState.MAIN_MENU;
-        PlayBGM(); 
+        // PlayBGM(); 
     }
 
     private void PlayBGM()
