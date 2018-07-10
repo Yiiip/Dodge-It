@@ -63,7 +63,7 @@ public static class UIUtils
 
 	public static bool IsVisibility(GameObject gameObject)
 	{
-		if (gameObject != null) return gameObject.active;
+		if (gameObject != null) return gameObject.activeSelf;
 		else return false;
 	}
 

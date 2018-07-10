@@ -35,7 +35,7 @@ public class EnemyTail : GameEntity
         this.mSpriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         if (RandomSprite)
         {
-            this.mSpriteRenderer.sprite = (Resources.Load(mSprites[Random.Range(0, mSprites.Length)]) as GameObject).GetComponent<SpriteRenderer>().sprite;
+            this.mSpriteRenderer.sprite = (Resources.Load(mSprites[Random.Range(0, mSprites.Length * 5) % mSprites.Length]) as GameObject).GetComponent<SpriteRenderer>().sprite;
         }
     }
 

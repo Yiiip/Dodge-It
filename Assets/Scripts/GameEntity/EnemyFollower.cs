@@ -13,6 +13,9 @@ public class EnemyFollower : GameEntity
     protected Player mTarget;
     protected int mScoreValue;
 
+    protected bool isDead = false;
+    protected Queue<GameObject> mEffectQueue = new Queue<GameObject>();
+
     protected void InitSelf()
     {
         base.mSpeed = DEFAULT_SPEED;
@@ -37,6 +40,26 @@ public class EnemyFollower : GameEntity
 
     protected override void FixedUpdate()
     {
+        if (isDead)
+        {
+            if (mEffectQueue.Count == 0)
+            {
+                mEffectQueue.Clear();
+                DestroyImmediate(this.gameObject);
+            }
+            else
+            {
+                for (int i = 0; i < mEffectQueue.Count; i++)
+                {
+                    if (mEffectQueue.Peek().GetComponent<ParticleSystem>().isStopped)
+                    {
+                        Destroy(mEffectQueue.Dequeue());
+                    }
+                }
+            }
+            return;
+        }
+
         base.FixedUpdate();
     }
 
@@ -47,25 +70,34 @@ public class EnemyFollower : GameEntity
 
     protected void OnTriggerEnter2D(Collider2D other)
     {
+        // 碰到子弹
         if (other.CompareTag("PlayerBullet"))
         {
             if (--mLife <= 0)
             {
-                Instantiate(HitEffect, this.transform.position, this.transform.rotation);
-                mTarget.Score += mScoreValue;
-                Destroy(this.gameObject);
+                mTarget.Score += mScoreValue; //打死才得分
+                gameObject.transform.localScale = Vector3.zero; //这里不直接销毁自己，先隐藏，等所以粒子播完再销毁
+                isDead = true;
             }
+
+            //按照生命值比例大小生成粒子
+            GameObject effect = Instantiate(HitEffect, this.transform.position, this.transform.rotation);
+            effect.transform.localScale *= (1.0f - mLife / MAX_LIFE);
+            mEffectQueue.Enqueue(effect);
+            //销毁子弹
             Destroy(other.gameObject);
         }
     }
 
     protected void OnCollisionEnter2D(Collision2D other)
     {
+        // 碰到Player
         if (other.collider.CompareTag(mTarget.gameObject.tag))
         {
             mTarget.Life -= 1;
-            Instantiate(HitEffect, this.transform.position, this.transform.rotation);
-            Destroy(this.gameObject);
+            mEffectQueue.Enqueue(Instantiate(HitEffect, this.transform.position, this.transform.rotation));
+            gameObject.transform.localScale = Vector3.zero;
+            isDead = true;
         }
     }
 }

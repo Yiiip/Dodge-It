@@ -45,7 +45,7 @@ public class GameWorld : MonoBehaviour
     private void Update() {
         if (mState == GameState.PLAYING)
         {
-            if (!Player.gameObject.active && !WaveEngine.gameObject.active)
+            if (!Player.gameObject.activeSelf && !WaveEngine.gameObject.activeSelf)
             {
                 UIUtils.SetVisibility(Player.gameObject, true);
                 UIUtils.SetVisibility(WaveEngine.gameObject, true);

@@ -75,7 +75,7 @@ public class PlayingUIScript : MonoBehaviour
 	{
 		if (GameWorld.Instance.State == GameState.MAIN_MENU)
 		{
-			if (!Cursor.visible || MouseCursor.active)
+			if (!Cursor.visible || MouseCursor.activeSelf)
 			{
 				Cursor.visible = true;
 				UIUtils.SetVisibility(MouseCursor, false);
