@@ -381,7 +381,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4844562353892332, guid: bc3222a481cd1364cae5a2501fc76bb9, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.29
+      value: 1.757
       objectReference: {fileID: 0}
     - target: {fileID: 4844562353892332, guid: bc3222a481cd1364cae5a2501fc76bb9, type: 2}
       propertyPath: m_LocalPosition.y
@@ -409,7 +409,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4844562353892332, guid: bc3222a481cd1364cae5a2501fc76bb9, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1539277392392420, guid: bc3222a481cd1364cae5a2501fc76bb9, type: 2}
       propertyPath: m_Name
@@ -734,6 +734,7 @@ GameObject:
   - component: {fileID: 282840812}
   - component: {fileID: 282840816}
   - component: {fileID: 282840815}
+  - component: {fileID: 282840817}
   m_Layer: 0
   m_Name: __Main Camera
   m_TagString: MainCamera
@@ -1062,6 +1063,19 @@ MonoBehaviour:
     mask: {fileID: 0}
     opacity: 0
     rounded: 0
+--- !u!114 &282840817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282840810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbce720f5554ba42a1f0d1cdfcf9664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCanShake: 1
+  radio: 0.2
 --- !u!1001 &292162632
 Prefab:
   m_ObjectHideFlags: 0

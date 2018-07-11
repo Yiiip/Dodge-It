@@ -80,6 +80,8 @@ public class EnemyFollower : GameEntity
                 isDead = true;
             }
 
+            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
+
             //按照生命值比例大小生成粒子
             GameObject effect = Instantiate(HitEffect, this.transform.position, this.transform.rotation);
             effect.transform.localScale *= (1.0f - mLife / MAX_LIFE);
@@ -98,6 +100,8 @@ public class EnemyFollower : GameEntity
             mEffectQueue.Enqueue(Instantiate(HitEffect, this.transform.position, this.transform.rotation));
             gameObject.transform.localScale = Vector3.zero;
             isDead = true;
+
+            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
         }
     }
 }
