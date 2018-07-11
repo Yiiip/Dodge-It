@@ -88,7 +88,16 @@ public class PlayingUIScript : MonoBehaviour
 			}
 			UpdateMainMenuUIEffects();
 
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+#if UNITY_EDITOR
+				UnityEditor.EditorApplication.isPlaying = false;
+#else
+				Application.Quit();
+#endif
+			}
+
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				GameWorld.Instance.State = GameState.PLAYING;
 			}
@@ -116,16 +125,25 @@ public class PlayingUIScript : MonoBehaviour
 
 	private void UpdateMainMenuUIEffects()
 	{
-		if (mTextHitStartAlpha >= 1.0f) mTextHitStartAlphaFlag = true;
-		else if (mTextHitStartAlpha <= 0.2f) mTextHitStartAlphaFlag = false;
 
 		if (mTextHitStartAlphaFlag) mTextHitStartAlpha -= Time.deltaTime * 1.2f;
 		else mTextHitStartAlpha += Time.deltaTime * 1.2f;
 		TextHitStart.color = new Color(TextHitStart.color.r, TextHitStart.color.g, TextHitStart.color.b, mTextHitStartAlpha);
-
+		
+		if (mTextHitStartAlpha >= 1.0f)
+		{
+			mTextHitStartAlpha = 1.0f;
+			mTextHitStartAlphaFlag = true;
+		}
+		else if (mTextHitStartAlpha <= 0.2f)
+		{
+			mTextHitStartAlpha = 0.2f;
+			mTextHitStartAlphaFlag = false;
+		}
+		
 		if (mTextHitStartAlphaFlag) TextHitStart.transform.localScale -= new Vector3(mTextHitStartAlpha * 0.002f, mTextHitStartAlpha * 0.002f, 0.0f);
 		else TextHitStart.transform.localScale += new Vector3(mTextHitStartAlpha * 0.002f, mTextHitStartAlpha * 0.002f, 0.0f);
-	
+
 		//Move ui around mouse
 		Vector2 mouseViewportPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 		mouseViewportPos = mouseViewportPos * 2 - Vector2.one;
