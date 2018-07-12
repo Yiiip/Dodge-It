@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyTail : GameEntity
 {
-    public static float DEFAULT_SPEED = 4.0f;
+    public static float DEFAULT_SPEED = 5.0f;
     public static float MAX_LIFE = 1;
 
     public GameObject HitEffect;
