@@ -7,13 +7,11 @@ public class EnemyTailEchoEffect : MonoBehaviour
     public float SpawnTime = 0.0f;
     private float destoryTime;
 
-    private EnemyTail enemy;
     private SpriteRenderer mSpriteRenderer;
 
     private void Start()
     {
         this.destoryTime = Random.Range(0.4f, 1.0f);
-        this.enemy = this.GetComponent<EnemyTail>();
         this.mSpriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
