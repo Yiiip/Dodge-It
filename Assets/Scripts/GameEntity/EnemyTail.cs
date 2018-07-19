@@ -24,7 +24,7 @@ public class EnemyTail : GameEntity
 
     protected void InitSelf()
     {
-        base.mSpeed = DEFAULT_SPEED + Random.Range(0, 5);
+        base.mSpeed = DEFAULT_SPEED + Random.Range(-1, 6);
         base.mLife = MAX_LIFE;
         this.mScoreValue = 30;
         this.mTarget = GameWorld.Instance.Player;
@@ -71,13 +71,16 @@ public class EnemyTail : GameEntity
     private Collision2D mLastMapBound;
     protected void OnCollisionEnter2D(Collision2D other)
     {
+        // 碰到Player
         if (other.collider.CompareTag(mTarget.gameObject.tag))
         {
             mTarget.Life -= 1;
             Instantiate(HitEffect, this.transform.position, this.transform.rotation);
+            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(16); //震屏
             Destroy(this.gameObject);
         }
 
+        // 碰到墙壁
         if (other.collider.tag.Equals("MapBound"))
         {
             if (mLastMapBound == null)

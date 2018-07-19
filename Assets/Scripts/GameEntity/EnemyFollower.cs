@@ -101,7 +101,7 @@ public class EnemyFollower : GameEntity
             gameObject.transform.localScale = Vector3.zero;
             isDead = true;
 
-            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
+            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(16); //震屏
         }
     }
 }

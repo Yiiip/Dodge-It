@@ -85,6 +85,7 @@ public class PlayingUIScript : MonoBehaviour
 				UIUtils.SetVisibility(PlayingHUD, false);
 				UIUtils.SetVisibility(MainMenu, true);
 				ppController.enableDepthOfField = true;
+				ppController.chromaticAberration.intensity = 0.8f;
 			}
 			UpdateMainMenuUIEffects();
 
@@ -114,6 +115,7 @@ public class PlayingUIScript : MonoBehaviour
 				UIUtils.SetVisibility(MainMenu, false);
 				UIUtils.SetVisibility(PlayingHUD, true);
 				ppController.enableDepthOfField = false;
+				ppController.chromaticAberration.intensity = 0.0f;
 				Destroy(MainEnemies);
 			}
 			MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
