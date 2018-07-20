@@ -62,6 +62,7 @@ public class EnemyTail : GameEntity
             {
                 Instantiate(HitEffect, this.transform.position, this.transform.rotation);
                 mTarget.Score += mScoreValue;
+                Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
                 Destroy(this.gameObject);
             }
             Destroy(other.gameObject);

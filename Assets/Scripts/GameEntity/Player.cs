@@ -8,18 +8,24 @@ public class Player : GameEntity
     public static float DEFAULT_SPEED = 7.0f;
     public static float DEFAULT_LIFE = 3;
     public static int MAX_SCORE = 999999;
-    public static int MAX_SKILL = 5;
+    public static int MAX_SKILL = 8;
     public static int MAX_BULLET_TYPES = 1;
+    public static int REWARD_SAKILL_CONDITION = 1000;
 
     public GameObject[] PlayerBullets = new GameObject[MAX_BULLET_TYPES];
 
     private int mScore;
     private int mSkill;
     private int mBulletLevel;
+    private int mNextRewardScore;
 
     public int Score
     {
-        set { mScore = Mathf.Clamp(value, 0, MAX_SCORE); }
+        set
+        {
+            mScore = Mathf.Clamp(value, 0, MAX_SCORE);
+            RewardSkill();
+        }
         get { return mScore; }
     }
 
@@ -37,6 +43,7 @@ public class Player : GameEntity
         this.mSkill = 0;
         this.mScore = 0;
         this.mBulletLevel = 0;
+        this.mNextRewardScore = REWARD_SAKILL_CONDITION;
     }
 
     protected virtual void Start()
@@ -55,6 +62,7 @@ public class Player : GameEntity
 
         UpdateVelocityByKeyboard();
         Shooting();
+        Skilling();
     }
 
     protected override void FixedUpdate()
@@ -73,6 +81,28 @@ public class Player : GameEntity
         if (Input.GetMouseButtonDown(0))
         {
             Instantiate(PlayerBullets[mBulletLevel], this.transform.position, Quaternion.identity);
+        }
+    }
+
+    private void Skilling()
+    {
+        if (mSkill > 0 && Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Skill!!!!");
+            //TODO
+            Skill--;
+        }
+    }
+
+    private void RewardSkill()
+    {
+        if (mScore <= 0) return;
+
+        if (mScore >= mNextRewardScore)
+        {
+            Skill += (mScore / mNextRewardScore);
+            AudioManager.Instance.PlaySound(1);
+            mNextRewardScore += REWARD_SAKILL_CONDITION;
         }
     }
 }

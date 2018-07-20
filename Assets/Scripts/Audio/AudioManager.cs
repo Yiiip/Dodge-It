@@ -45,12 +45,8 @@ public class AudioManager : MonoBehaviour
 
         audioPathDict = new Dictionary<int, string>() // 这里设置音频文件路径。需要修改。 TODO
         {
-            { 0, "Audio/BGM/bg_classical" },
-            // { 11, "AudioClip/Sound/Sound1" }, 
-            // { 12, "AudioClip/Sound/Sound2" }, 
-            // { 13, "AudioClip/Sound/Sound3" }, 
-            // { 14, "AudioClip/Sound/Sound4" }, 
-            // { 15, "AudioClip/Sound/Sound5" },
+            { (int) AudioConstant.BG_CLASSICAL, "Audio/BGM/bg_classical" },
+            { (int) AudioConstant.SKILL_GET, "Audio/SFX/Skill_Get" },
         };
 
         musicAudioSource = gameObject.AddComponent<AudioSource>();

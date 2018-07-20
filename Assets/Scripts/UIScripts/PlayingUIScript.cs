@@ -65,7 +65,7 @@ public class PlayingUIScript : MonoBehaviour
 			GameObject skillIcon = UIUtils.InstantiatePrefab(PrefabSkillIcon, ParentSkillIcons);
 			skillIcon.transform.position = new Vector3(skillIcon.transform.position.x - i * 18, skillIcon.transform.position.y, skillIcon.transform.position.z);
 			UIUtils.SetVisibility(skillIcon, false);
-			mLifeIcons.Add(skillIcon);
+			mSkillIcons.Add(skillIcon);
 		}
 
 		mKeyboardHitAreaOriginPos = KeyboardHitArea.transform.position;
