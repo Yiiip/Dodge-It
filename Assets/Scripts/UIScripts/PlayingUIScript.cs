@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.PostProcessing.Utilities;
 
 public class PlayingUIScript : MonoBehaviour
@@ -27,6 +28,10 @@ public class PlayingUIScript : MonoBehaviour
 	public GameObject PrefabLifeIcon;
 	public GameObject PrefabSkillIcon;
 
+	public Image IconSound, IconMusic;
+	public Slider SliderSound, SliderMusic;
+	public Image AreaSoundSetting, AreaMusicSetting;
+
 	private List<GameObject> mLifeIcons;
 	private List<GameObject> mSkillIcons;
 	private byte mLifeIconVisibleCount = 0;
@@ -36,6 +41,7 @@ public class PlayingUIScript : MonoBehaviour
 	{
 		InitData();
 		InitViews();
+		InitEvents();
 	}
 
 	private void InitData()
@@ -69,6 +75,56 @@ public class PlayingUIScript : MonoBehaviour
 		}
 
 		mKeyboardHitAreaOriginPos = KeyboardHitArea.transform.position;
+
+		SliderSound.value = AudioManager.Instance.SoundVolume;
+		SliderMusic.value = AudioManager.Instance.MusicVolume;
+	}
+
+	private void InitEvents()
+	{
+		UIEventListener.Bind(IconSound.gameObject).OnMouseEnter += OnMouseEnterEvent;
+		UIEventListener.Bind(IconMusic.gameObject).OnMouseEnter += OnMouseEnterEvent;
+		UIEventListener.Bind(AreaSoundSetting.gameObject).OnMouseExit += OnMouseExitEvent;
+		UIEventListener.Bind(AreaMusicSetting.gameObject).OnMouseExit += OnMouseExitEvent;
+		UIEventListener.BindListener(SliderSound, OnSliderSoundListener);
+		UIEventListener.BindListener(SliderMusic, OnSliderMusicListener);
+	}
+
+	private void OnMouseEnterEvent(GameObject go)
+	{
+		if (go == IconSound.gameObject)
+		{
+			UIUtils.SetVisibility(SliderMusic.gameObject, false);
+			UIUtils.SetVisibility(SliderSound.gameObject, true);
+		}
+		else if (go == IconMusic.gameObject)
+		{
+			UIUtils.SetVisibility(SliderSound.gameObject, false);
+			UIUtils.SetVisibility(SliderMusic.gameObject, true);
+		}
+	}
+
+	private void OnMouseExitEvent(GameObject go)
+	{
+		if (go == AreaSoundSetting.gameObject)
+		{
+			UIUtils.SetVisibility(SliderSound.gameObject, false);
+		}
+		else if (go == AreaMusicSetting.gameObject)
+		{
+			UIUtils.SetVisibility(SliderMusic.gameObject, false);
+		}
+	}
+
+	private void OnSliderSoundListener(float value)
+	{
+		AudioManager.Instance.ChangeSoundVolume(value);
+		AudioManager.Instance.PlaySound((int) AudioConstant.LIFE_GET);
+	}
+
+	private void OnSliderMusicListener(float value)
+	{
+		AudioManager.Instance.ChangeMusicVolume(value);
 	}
 
 	void Update()

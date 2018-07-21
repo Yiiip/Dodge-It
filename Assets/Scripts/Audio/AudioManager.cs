@@ -26,15 +26,18 @@ public class AudioManager : MonoBehaviour
 
     private Dictionary<int, AudioClip> audioClipDict; // 缓存音频文件
 
-    private float musicVolume = 1;
+    private float musicVolume = 1.0f;
 
-    private float soundVolume = 1;
+    private float soundVolume = 1.0f;
 
-    private string musicVolumePrefs = "MusicVolume";
+    private string PREFS_MUSIC_VOLUME = "MusicVolume";
 
-    private string soundVolumePrefs = "SoundVolume";
+    private string PREFS_SOUND_VOLUME = "SoundVolume";
 
     private int poolCount = 8; // 对象池数量
+
+    public float MusicVolume { get { return musicVolume; } }
+    public float SoundVolume { get { return soundVolume; } }
 
     private AudioManager() {}
 
@@ -63,13 +66,13 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         // 从本地缓存读取声音音量
-        if (PlayerPrefs.HasKey(musicVolumePrefs))
+        if (PlayerPrefs.HasKey(PREFS_MUSIC_VOLUME))
         {
-            musicVolume = PlayerPrefs.GetFloat(musicVolumePrefs);
+            musicVolume = PlayerPrefs.GetFloat(PREFS_MUSIC_VOLUME);
         }
-        if (PlayerPrefs.HasKey(soundVolumePrefs))
+        if (PlayerPrefs.HasKey(PREFS_SOUND_VOLUME))
         {
-            soundVolume = PlayerPrefs.GetFloat(soundVolumePrefs);
+            soundVolume = PlayerPrefs.GetFloat(PREFS_SOUND_VOLUME);
         }
     }
 
@@ -232,7 +235,7 @@ public class AudioManager : MonoBehaviour
         musicVolume = volume;
         musicAudioSource.volume = volume;
 
-        PlayerPrefs.SetFloat(musicVolumePrefs, volume);
+        PlayerPrefs.SetFloat(PREFS_MUSIC_VOLUME, volume);
     }
 
     /// <summary>
@@ -251,6 +254,6 @@ public class AudioManager : MonoBehaviour
             usedSoundAudioSourceList[i].volume = volume;
         }
 
-        PlayerPrefs.SetFloat(soundVolumePrefs, volume);
+        PlayerPrefs.SetFloat(PREFS_SOUND_VOLUME, volume);
     }
 }
