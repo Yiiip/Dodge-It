@@ -81,6 +81,7 @@ public class Player : GameEntity
         if (Input.GetMouseButtonDown(0))
         {
             Instantiate(PlayerBullets[mBulletLevel], this.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySound((int) AudioConstant.SHOOT01);
         }
     }
 

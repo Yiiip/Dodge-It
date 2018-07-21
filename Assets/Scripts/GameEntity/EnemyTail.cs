@@ -62,7 +62,12 @@ public class EnemyTail : GameEntity
                 mTarget.Score += mScoreValue;
                 GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
                 Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
+                AudioManager.Instance.PlaySound((int) AudioConstant.ENEMY_DESTORY01);
                 Destroy(this.gameObject);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound((int) AudioConstant.HIT01);
             }
             Destroy(other.gameObject);
         }
@@ -77,6 +82,7 @@ public class EnemyTail : GameEntity
             mTarget.Life -= 1;
             GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(16); //震屏
+            AudioManager.Instance.PlaySound((int) AudioConstant.ENEMY_DESTORY01);
             Destroy(this.gameObject);
         }
 

@@ -4,4 +4,7 @@ enum AudioConstant
     SKILL_GET,
     LIFE_GET,
     START,
+    SHOOT01,
+    HIT01,
+    ENEMY_DESTORY01
 }

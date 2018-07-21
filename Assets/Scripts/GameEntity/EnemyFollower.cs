@@ -71,6 +71,8 @@ public class EnemyFollower : GameEntity
         // 碰到子弹
         if (other.CompareTag("PlayerBullet"))
         {
+            --mLife;
+
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
 
             //按照生命值比例大小生成粒子
@@ -79,10 +81,15 @@ public class EnemyFollower : GameEntity
             //销毁子弹
             Destroy(other.gameObject);
             
-            if (--mLife <= 0)
+            if (mLife <= 0)
             {
                 mTarget.Score += mScoreValue; //打死得分
+                AudioManager.Instance.PlaySound((int) AudioConstant.ENEMY_DESTORY01);
                 Destroy(this.gameObject);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound((int) AudioConstant.HIT01);
             }
         }
     }
@@ -95,6 +102,8 @@ public class EnemyFollower : GameEntity
             mTarget.Life -= 1;
             GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(16); //震屏
+            AudioManager.Instance.PlaySound((int) AudioConstant.ENEMY_DESTORY01);
+            Destroy(this.gameObject);
         }
     }
 }
