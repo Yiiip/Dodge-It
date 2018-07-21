@@ -47,6 +47,8 @@ public class AudioManager : MonoBehaviour
         {
             { (int) AudioConstant.BG_CLASSICAL, "Audio/BGM/bg_classical" },
             { (int) AudioConstant.SKILL_GET, "Audio/SFX/Skill_Get" },
+            { (int) AudioConstant.LIFE_GET, "Audio/SFX/Life_Get" },
+            { (int) AudioConstant.START, "Audio/SFX/Start" },
         };
 
         musicAudioSource = gameObject.AddComponent<AudioSource>();

@@ -101,6 +101,7 @@ public class PlayingUIScript : MonoBehaviour
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				GameWorld.Instance.State = GameState.PLAYING;
+				AudioManager.Instance.PlaySound((int) AudioConstant.START);
 			}
 		}
 		else if (GameWorld.Instance.State == GameState.PLAYING)

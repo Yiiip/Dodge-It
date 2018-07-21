@@ -9,6 +9,8 @@ public class GameWorld : MonoBehaviour
     private GameState mState;
     public Player Player;
     public WaveEngine WaveEngine;
+    public GameObject EffectPools;
+    private EffectPool mHitEffectPool;
 
     public static GameWorld Instance
     {
@@ -19,6 +21,11 @@ public class GameWorld : MonoBehaviour
     {
         get { return mState; }
         set { mState = value; }
+    }
+
+    public EffectPool HitEffectPool
+    {
+        get { return mHitEffectPool; }
     }
 
     private void Awake() {
@@ -34,6 +41,16 @@ public class GameWorld : MonoBehaviour
 
     private void Start() {
         mState = GameState.MAIN_MENU;
+
+        EffectPool[] effectPools = EffectPools.GetComponents<EffectPool>();
+        for (int i = 0; i < effectPools.Length; i++)
+        {
+            if (effectPools[i].PoolTag.Equals("Hit"))
+            {
+                mHitEffectPool = effectPools[i];
+            }
+        }
+
         PlayBGM();
     }
 

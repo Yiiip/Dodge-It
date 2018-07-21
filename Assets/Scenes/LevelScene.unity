@@ -589,7 +589,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -18.809, y: 13.902, z: -4.563}
 --- !u!1001 &202403626
 Prefab:
@@ -1449,7 +1449,7 @@ Transform:
   - {fileID: 632587789}
   - {fileID: 1758310132}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &448475165
 GameObject:
@@ -1484,7 +1484,7 @@ Transform:
   - {fileID: 282489832}
   - {fileID: 1310986948}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &448475167
 MonoBehaviour:
@@ -1581,7 +1581,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &462799006 stripped
 Transform:
@@ -2316,7 +2316,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &755766179 stripped
 Transform:
@@ -2477,7 +2477,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4301065453696534, guid: 6f43243fd5394cb43b84dedb831d651d, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1452732465527156, guid: 6f43243fd5394cb43b84dedb831d651d, type: 2}
       propertyPath: m_IsActive
@@ -2541,7 +2541,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4634198446311320, guid: 4512536c5727e7046be827df205f80bc, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4512536c5727e7046be827df205f80bc, type: 2}
@@ -3526,6 +3526,53 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1097626076}
   m_CullTransparentMesh: 0
+--- !u!1 &1125485836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1125485838}
+  - component: {fileID: 1125485837}
+  m_Layer: 0
+  m_Name: __EffectPools
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1125485837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1125485836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb69c0b9464564409f0432823fa6a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoolTag: Hit
+  dynamicPool: 0
+  initialPoolSize: 10
+  poolGrowthRate: 2
+  effectPrefab: {fileID: 1041072915783196, guid: 0cce6308c7084a54bb6ae14a57d88c69,
+    type: 2}
+  effectDuration: 1
+--- !u!4 &1125485838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1125485836}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1127702337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5015,7 +5062,7 @@ Transform:
   - {fileID: 1460469149}
   - {fileID: 897287436}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1604879547 stripped
 Transform:
@@ -5568,7 +5615,7 @@ RectTransform:
   - {fileID: 1086549698}
   - {fileID: 1189060485}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6995,6 +7042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1472477171}
   WaveEngine: {fileID: 448475168}
+  EffectPools: {fileID: 1125485836}
 --- !u!1 &2032014722
 GameObject:
   m_ObjectHideFlags: 0

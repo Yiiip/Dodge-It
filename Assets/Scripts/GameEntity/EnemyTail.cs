@@ -7,7 +7,6 @@ public class EnemyTail : GameEntity
     public static float DEFAULT_SPEED = 5.0f;
     public static float MAX_LIFE = 1;
 
-    public GameObject HitEffect;
     protected Player mTarget;
 
     protected int mScoreValue;
@@ -19,7 +18,7 @@ public class EnemyTail : GameEntity
         "Sprites/sEnemyBlue",
         "Sprites/sEnemyRed",
         "Sprites/sEnemyYellow",
-        "Sprites/sEnemyFollower",
+        "Sprites/sEnemyGreen",
     };
 
     protected void InitSelf()
@@ -60,8 +59,8 @@ public class EnemyTail : GameEntity
         {
             if (--mLife <= 0)
             {
-                Instantiate(HitEffect, this.transform.position, this.transform.rotation);
                 mTarget.Score += mScoreValue;
+                GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
                 Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
                 Destroy(this.gameObject);
             }
@@ -76,7 +75,7 @@ public class EnemyTail : GameEntity
         if (other.collider.CompareTag(mTarget.gameObject.tag))
         {
             mTarget.Life -= 1;
-            Instantiate(HitEffect, this.transform.position, this.transform.rotation);
+            GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(16); //震屏
             Destroy(this.gameObject);
         }

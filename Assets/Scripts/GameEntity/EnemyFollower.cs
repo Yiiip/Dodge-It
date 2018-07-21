@@ -7,14 +7,12 @@ public class EnemyFollower : GameEntity
     public static float DEFAULT_SPEED = 2.0f;
     public static float MAX_LIFE = 2;
 
-    public GameObject HitEffect;
-
     protected Transform mTargetPos;
     protected Player mTarget;
     protected int mScoreValue;
 
-    protected bool isDead = false;
-    protected Queue<GameObject> mEffectQueue = new Queue<GameObject>();
+    // protected bool isDead = false;
+    // protected Queue<GameObject> mEffectQueue = new Queue<GameObject>();
 
     protected void InitSelf()
     {
@@ -40,25 +38,25 @@ public class EnemyFollower : GameEntity
 
     protected override void FixedUpdate()
     {
-        if (isDead)
-        {
-            if (mEffectQueue.Count == 0)
-            {
-                mEffectQueue.Clear();
-                DestroyImmediate(this.gameObject);
-            }
-            else
-            {
-                for (int i = 0; i < mEffectQueue.Count; i++)
-                {
-                    if (mEffectQueue.Peek().GetComponent<ParticleSystem>().isStopped)
-                    {
-                        Destroy(mEffectQueue.Dequeue());
-                    }
-                }
-            }
-            return;
-        }
+        // if (isDead)
+        // {
+        //     if (mEffectQueue.Count == 0)
+        //     {
+        //         mEffectQueue.Clear();
+        //         DestroyImmediate(this.gameObject);
+        //     }
+        //     else
+        //     {
+        //         for (int i = 0; i < mEffectQueue.Count; i++)
+        //         {
+        //             if (mEffectQueue.Peek().GetComponent<ParticleSystem>().isStopped)
+        //             {
+        //                 Destroy(mEffectQueue.Dequeue());
+        //             }
+        //         }
+        //     }
+        //     return;
+        // }
 
         base.FixedUpdate();
     }
@@ -73,21 +71,19 @@ public class EnemyFollower : GameEntity
         // 碰到子弹
         if (other.CompareTag("PlayerBullet"))
         {
-            if (--mLife <= 0)
-            {
-                mTarget.Score += mScoreValue; //打死才得分
-                gameObject.transform.localScale = Vector3.zero; //这里不直接销毁自己，先隐藏，等所以粒子播完再销毁
-                isDead = true;
-            }
-
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
 
             //按照生命值比例大小生成粒子
-            GameObject effect = Instantiate(HitEffect, this.transform.position, this.transform.rotation);
-            effect.transform.localScale *= (1.0f - mLife / MAX_LIFE);
-            mEffectQueue.Enqueue(effect);
+            Vector3 scaleByLife = Vector3.one * (1.0f - mLife / MAX_LIFE);
+            GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, scaleByLife, this.transform.rotation);
             //销毁子弹
             Destroy(other.gameObject);
+            
+            if (--mLife <= 0)
+            {
+                mTarget.Score += mScoreValue; //打死得分
+                Destroy(this.gameObject);
+            }
         }
     }
 
@@ -97,10 +93,7 @@ public class EnemyFollower : GameEntity
         if (other.collider.CompareTag(mTarget.gameObject.tag))
         {
             mTarget.Life -= 1;
-            mEffectQueue.Enqueue(Instantiate(HitEffect, this.transform.position, this.transform.rotation));
-            gameObject.transform.localScale = Vector3.zero;
-            isDead = true;
-
+            GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(16); //震屏
         }
     }

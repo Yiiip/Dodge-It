@@ -101,7 +101,7 @@ public class Player : GameEntity
         if (mScore >= mNextRewardScore)
         {
             Skill += (mScore / mNextRewardScore);
-            AudioManager.Instance.PlaySound(1);
+            AudioManager.Instance.PlaySound((int) AudioConstant.SKILL_GET);
             mNextRewardScore += REWARD_SAKILL_CONDITION;
         }
     }
