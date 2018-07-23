@@ -82,12 +82,28 @@ public class PlayingUIScript : MonoBehaviour
 
 	private void InitEvents()
 	{
+		UIEventListener.Bind(IconSound.gameObject).OnClick += OnClickEvent;
+		UIEventListener.Bind(IconMusic.gameObject).OnClick += OnClickEvent;
 		UIEventListener.Bind(IconSound.gameObject).OnMouseEnter += OnMouseEnterEvent;
 		UIEventListener.Bind(IconMusic.gameObject).OnMouseEnter += OnMouseEnterEvent;
 		UIEventListener.Bind(AreaSoundSetting.gameObject).OnMouseExit += OnMouseExitEvent;
 		UIEventListener.Bind(AreaMusicSetting.gameObject).OnMouseExit += OnMouseExitEvent;
 		UIEventListener.BindListener(SliderSound, OnSliderSoundListener);
 		UIEventListener.BindListener(SliderMusic, OnSliderMusicListener);
+	}
+
+	private void OnClickEvent(GameObject go)
+	{
+		if (go == IconSound.gameObject)
+		{
+			UIUtils.SetVisibility(SliderMusic.gameObject, false);
+			UIUtils.SetVisibility(SliderSound.gameObject, !SliderSound.gameObject.activeSelf);
+		}
+		else if (go == IconMusic.gameObject)
+		{
+			UIUtils.SetVisibility(SliderSound.gameObject, false);
+			UIUtils.SetVisibility(SliderMusic.gameObject, !SliderMusic.gameObject.activeSelf);
+		}
 	}
 
 	private void OnMouseEnterEvent(GameObject go)
@@ -134,6 +150,7 @@ public class PlayingUIScript : MonoBehaviour
 			if (!Cursor.visible || MouseCursor.activeSelf)
 			{
 				Cursor.visible = true;
+				MouseCursor.transform.rotation = Quaternion.identity;
 				UIUtils.SetVisibility(MouseCursor, false);
 			}
 			if (!UIUtils.IsVisibility(MainMenu))
@@ -175,7 +192,8 @@ public class PlayingUIScript : MonoBehaviour
 				ppController.chromaticAberration.intensity = 0.0f;
 				Destroy(MainEnemies);
 			}
-			MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
+			MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0.0f);
+			MouseCursor.transform.Rotate(0.0f, 0.0f, 1.0f);
 			UpdateScoreUI();
 			UpdateLifeIcons();
 			UpdateSkillIcons();
