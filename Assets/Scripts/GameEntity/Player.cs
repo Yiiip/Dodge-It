@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.PostProcessing.Utilities;
 
 public class Player : GameEntity
 {
@@ -10,14 +11,21 @@ public class Player : GameEntity
     public static int MAX_SCORE = 999999;
     public static int MAX_SKILL = 8;
     public static int MAX_BULLET_TYPES = 1;
-    public static int REWARD_SAKILL_CONDITION = 1000;
+    public static int MAX_SKILL_TYPES = 1;
+    public static int REWARD_SKILL_CONDITION = 50;
+    public static int REWARD_LIFE_CONDITION = 10000;
+    public static float MAX_SKILL_CD_TIME = 2.0f;
 
     public GameObject[] PlayerBullets = new GameObject[MAX_BULLET_TYPES];
+    public GameObject[] PlayerSkills = new GameObject[MAX_SKILL_TYPES];
 
     private int mScore;
     private int mSkill;
-    private int mBulletLevel;
-    private int mNextRewardScore;
+    private int mBulletLevel, mSkillLevel;
+    private int mNextRewardScore, mNextRewardLife;
+    private float mSkillCDTimer;
+
+    private PostProcessingController ppController;
 
     public int Score
     {
@@ -25,6 +33,7 @@ public class Player : GameEntity
         {
             mScore = Mathf.Clamp(value, 0, MAX_SCORE);
             RewardSkill();
+            RewardLife();
         }
         get { return mScore; }
     }
@@ -43,7 +52,12 @@ public class Player : GameEntity
         this.mSkill = 0;
         this.mScore = 0;
         this.mBulletLevel = 0;
-        this.mNextRewardScore = REWARD_SAKILL_CONDITION;
+        this.mSkillLevel = 0;
+        this.mNextRewardScore = REWARD_SKILL_CONDITION;
+        this.mNextRewardLife = REWARD_LIFE_CONDITION;
+        this.mSkillCDTimer = 0.0f;
+
+        this.ppController = Camera.main.GetComponent<PostProcessingController>();
     }
 
     protected virtual void Start()
@@ -57,7 +71,7 @@ public class Player : GameEntity
         {
             AudioManager.Instance.StopMusic();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            // Debug.Log("Life = 0!");
+            // Debug.Log("Life = 0. GAME OVER !");
         }
 
         UpdateVelocityByKeyboard();
@@ -76,6 +90,7 @@ public class Player : GameEntity
         mMoveVelocity = input.normalized * mSpeed;
     }
 
+    //普通攻击
     private void Shooting()
     {
         if (Input.GetMouseButtonDown(0))
@@ -85,16 +100,28 @@ public class Player : GameEntity
         }
     }
 
+    //技能
     private void Skilling()
     {
-        if (mSkill > 0 && Input.GetMouseButtonDown(1))
+        if (mSkillCDTimer > 0.0f)
         {
-            Debug.Log("Skill!!!!");
-            //TODO
+            mSkillCDTimer -= Time.deltaTime;
+            ppController.chromaticAberration.intensity = mSkillCDTimer / MAX_SKILL_CD_TIME;
+            ppController.vignette.smoothness = mSkillCDTimer / MAX_SKILL_CD_TIME;
+            return;
+        }
+
+        if (mSkill > 0 && mSkillCDTimer <= 0.0f && Input.GetMouseButtonDown(1))
+        {
             Skill--;
+            mSkillCDTimer = MAX_SKILL_CD_TIME;
+            //TODO 
+            // Instantiate(PlayerSkills[mSkillLevel], this.transform.position, Quaternion.identity);
+            // AudioManager.Instance.PlaySound((int) AudioConstant.SHOOT01);
         }
     }
 
+    //奖励技能
     private void RewardSkill()
     {
         if (mScore <= 0) return;
@@ -103,7 +130,20 @@ public class Player : GameEntity
         {
             Skill += (mScore / mNextRewardScore);
             AudioManager.Instance.PlaySound((int) AudioConstant.SKILL_GET);
-            mNextRewardScore += REWARD_SAKILL_CONDITION;
+            mNextRewardScore += REWARD_SKILL_CONDITION;
+        }
+    }
+
+    //奖励生命
+    private void RewardLife()
+    {
+        if (mScore <= 0) return;
+
+        if (mScore >= mNextRewardLife)
+        {
+            Skill += (mScore / mNextRewardLife);
+            AudioManager.Instance.PlaySound((int) AudioConstant.LIFE_GET);
+            mNextRewardLife += REWARD_LIFE_CONDITION;
         }
     }
 }

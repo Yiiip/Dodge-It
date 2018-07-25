@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFollower : GameEntity
+public class EnemyFollower : Enemy
 {
     public static float DEFAULT_SPEED = 2.0f;
     public static float MAX_LIFE = 2;
@@ -14,8 +14,9 @@ public class EnemyFollower : GameEntity
     // protected bool isDead = false;
     // protected Queue<GameObject> mEffectQueue = new Queue<GameObject>();
 
-    protected void InitSelf()
+    protected override void InitSelf()
     {
+        base.InitSelf();
         base.mSpeed = DEFAULT_SPEED;
         base.mLife = MAX_LIFE;
         this.mScoreValue = 25;

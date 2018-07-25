@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTail : GameEntity
+public class EnemyTail : Enemy
 {
     public static float DEFAULT_SPEED = 5.0f;
     public static float MAX_LIFE = 1;
@@ -21,8 +21,9 @@ public class EnemyTail : GameEntity
         "Sprites/sEnemyGreen",
     };
 
-    protected void InitSelf()
+    protected override void InitSelf()
     {
+        base.InitSelf();
         base.mSpeed = DEFAULT_SPEED + Random.Range(-1, 6);
         base.mLife = MAX_LIFE;
         this.mScoreValue = 30;
