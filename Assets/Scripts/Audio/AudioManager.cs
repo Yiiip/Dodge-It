@@ -55,6 +55,8 @@ public class AudioManager : MonoBehaviour
             { (int) AudioConstant.SHOOT01, "Audio/SFX/Shoot01" },
             { (int) AudioConstant.HIT01, "Audio/SFX/Hit01" },
             { (int) AudioConstant.ENEMY_DESTORY01, "Audio/SFX/Enemy_Destory01" },
+            { (int) AudioConstant.SKILL00, "Audio/SFX/Skill00" },
+            { (int) AudioConstant.SKILL01, "Audio/SFX/Skill01" },
         };
 
         musicAudioSource = gameObject.AddComponent<AudioSource>();

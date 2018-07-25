@@ -6,5 +6,7 @@ enum AudioConstant
     START,
     SHOOT01,
     HIT01,
-    ENEMY_DESTORY01
+    ENEMY_DESTORY01,
+    SKILL00,
+    SKILL01,
 }

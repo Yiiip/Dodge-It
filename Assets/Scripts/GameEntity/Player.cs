@@ -108,6 +108,9 @@ public class Player : GameEntity
             mSkillCDTimer -= Time.deltaTime;
             ppController.chromaticAberration.intensity = mSkillCDTimer / MAX_SKILL_CD_TIME;
             ppController.vignette.smoothness = mSkillCDTimer / MAX_SKILL_CD_TIME;
+
+            if (musicVolumeBeforeSkill == -1f) musicVolumeBeforeSkill = AudioManager.Instance.MusicVolume;
+            AudioManager.Instance.ChangeMusicVolume(Mathf.Clamp01(0.02f + musicVolumeBeforeSkill - mSkillCDTimer / MAX_SKILL_CD_TIME));
             return;
         }
 
@@ -115,11 +118,14 @@ public class Player : GameEntity
         {
             Skill--;
             mSkillCDTimer = MAX_SKILL_CD_TIME;
+            if (musicVolumeBeforeSkill != -1f) AudioManager.Instance.ChangeMusicVolume(musicVolumeBeforeSkill);
+            musicVolumeBeforeSkill = -1f;
             //TODO 
             // Instantiate(PlayerSkills[mSkillLevel], this.transform.position, Quaternion.identity);
-            // AudioManager.Instance.PlaySound((int) AudioConstant.SHOOT01);
+            AudioManager.Instance.PlaySound((int) AudioConstant.SKILL00);
         }
     }
+    private float musicVolumeBeforeSkill = -1f;
 
     //奖励技能
     private void RewardSkill()
