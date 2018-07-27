@@ -120,9 +120,22 @@ public class Player : GameEntity
             mSkillCDTimer = MAX_SKILL_CD_TIME;
             if (musicVolumeBeforeSkill != -1f) AudioManager.Instance.ChangeMusicVolume(musicVolumeBeforeSkill);
             musicVolumeBeforeSkill = -1f;
-            //TODO 
-            // Instantiate(PlayerSkills[mSkillLevel], this.transform.position, Quaternion.identity);
-            AudioManager.Instance.PlaySound((int) AudioConstant.SKILL00);
+            
+            if (mSkillLevel == 0)
+            {
+                float r = 1.0f;
+                for (int i = 0; i < 36; i++)
+                {
+                    float angle = i * 10.0f;
+                    Vector2 skillBulletPos = new Vector2 (
+                        transform.position.x + r * Mathf.Sin(angle * Mathf.Deg2Rad),
+                        transform.position.y + r * Mathf.Cos(angle * Mathf.Deg2Rad)
+                    );
+                    GameObject skillBulletObj = Instantiate(PlayerSkills[0], skillBulletPos, Quaternion.identity);
+                    skillBulletObj.transform.eulerAngles = new Vector3(0.0f, 0.0f, angle);
+                }
+                AudioManager.Instance.PlaySound((int) AudioConstant.SKILL00);
+            }
         }
     }
     private float musicVolumeBeforeSkill = -1f;
