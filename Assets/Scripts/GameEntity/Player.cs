@@ -11,17 +11,15 @@ public class Player : GameEntity
     public static int MAX_SCORE = 999999;
     public static int MAX_SKILL = 8;
     public static int MAX_BULLET_TYPES = 1;
-    public static int MAX_SKILL_TYPES = 1;
     public static int REWARD_SKILL_CONDITION = 50;
     public static int REWARD_LIFE_CONDITION = 10000;
     public static float MAX_SKILL_CD_TIME = 2.0f;
 
     public GameObject[] PlayerBullets = new GameObject[MAX_BULLET_TYPES];
-    public GameObject[] PlayerSkills = new GameObject[MAX_SKILL_TYPES];
 
     private int mScore;
-    private int mSkill;
-    private int mBulletLevel, mSkillLevel;
+    private int mBulletLevel;
+    private SkillManager mSkillMgr;
     private int mNextRewardScore, mNextRewardLife;
     private float mSkillCDTimer;
 
@@ -38,10 +36,14 @@ public class Player : GameEntity
         get { return mScore; }
     }
 
-    public int Skill
+    public int SkillCount
     {
-        set { mSkill = Mathf.Clamp(value, 0, MAX_SKILL); }
-        get { return mSkill; }
+        get { return mSkillMgr.GetSkillCount(); }
+    }
+
+    public BaseSkill SkillData
+    {
+        get { return mSkillMgr.GetSkillData(); }
     }
 
     private void InitSelf()
@@ -49,10 +51,9 @@ public class Player : GameEntity
         base.mSpeed = DEFAULT_SPEED;
         base.mLife = DEFAULT_LIFE;
         this.transform.position = new Vector2(Random.Range(-5.0f, 5.0f), Random.Range(-4.0f, 4.0f));
-        this.mSkill = 0;
         this.mScore = 0;
+        this.mSkillMgr = gameObject.GetComponent<SkillManager>();
         this.mBulletLevel = 0;
-        this.mSkillLevel = 0;
         this.mNextRewardScore = REWARD_SKILL_CONDITION;
         this.mNextRewardLife = REWARD_LIFE_CONDITION;
         this.mSkillCDTimer = 0.0f;
@@ -100,45 +101,41 @@ public class Player : GameEntity
         }
     }
 
-    //技能
+    private float musicVolumeBeforeSkill = -1f;
+    
+    //施放技能
     private void Skilling()
     {
+        //若处于技能CD中
         if (mSkillCDTimer > 0.0f)
         {
             mSkillCDTimer -= Time.deltaTime;
+
+            //控制屏幕特效
             ppController.chromaticAberration.intensity = mSkillCDTimer / MAX_SKILL_CD_TIME;
             ppController.vignette.smoothness = mSkillCDTimer / MAX_SKILL_CD_TIME;
 
+            //控制声音
             if (musicVolumeBeforeSkill == -1f) musicVolumeBeforeSkill = AudioManager.Instance.MusicVolume;
             AudioManager.Instance.ChangeMusicVolume(Mathf.Clamp01(0.02f + musicVolumeBeforeSkill - mSkillCDTimer / MAX_SKILL_CD_TIME));
             return;
         }
-
-        if (mSkill > 0 && mSkillCDTimer <= 0.0f && Input.GetMouseButtonDown(1))
+        //若技能可用
+        else if (mSkillCDTimer <= 0.0f && Input.GetMouseButtonDown(1))
         {
-            Skill--;
-            mSkillCDTimer = MAX_SKILL_CD_TIME;
-            if (musicVolumeBeforeSkill != -1f) AudioManager.Instance.ChangeMusicVolume(musicVolumeBeforeSkill);
-            musicVolumeBeforeSkill = -1f;
-            
-            if (mSkillLevel == 0)
+            if (mSkillMgr.UseSkill())
             {
-                float r = 1.0f;
-                for (int i = 0; i < 36; i++)
-                {
-                    float angle = i * 10.0f;
-                    Vector2 skillBulletPos = new Vector2 (
-                        transform.position.x + r * Mathf.Sin(angle * Mathf.Deg2Rad),
-                        transform.position.y + r * Mathf.Cos(angle * Mathf.Deg2Rad)
-                    );
-                    GameObject skillBulletObj = Instantiate(PlayerSkills[0], skillBulletPos, Quaternion.identity);
-                    skillBulletObj.transform.eulerAngles = new Vector3(0.0f, 0.0f, angle);
-                }
-                AudioManager.Instance.PlaySound((int) AudioConstant.SKILL00);
+                mSkillCDTimer = MAX_SKILL_CD_TIME;
+
+                if (musicVolumeBeforeSkill != -1f) AudioManager.Instance.ChangeMusicVolume(musicVolumeBeforeSkill);
+                musicVolumeBeforeSkill = -1f;
+            }
+            else
+            {
+                //TODO 播放空声音
             }
         }
     }
-    private float musicVolumeBeforeSkill = -1f;
 
     //奖励技能
     private void RewardSkill()
@@ -147,10 +144,18 @@ public class Player : GameEntity
 
         if (mScore >= mNextRewardScore)
         {
-            Skill += (mScore / mNextRewardScore);
-            AudioManager.Instance.PlaySound((int) AudioConstant.SKILL_GET);
+            // mSkillMgr.AddSkill(mScore / mNextRewardScore);
+            mSkillMgr.AddSkill(mScore / mNextRewardScore, ESkillType.SKILL_01); //TODO
+
             mNextRewardScore += REWARD_SKILL_CONDITION;
+            AudioManager.Instance.PlaySound((int) AudioConstant.SKILL_GET);
         }
+    }
+
+    //得到新技能
+    public void GetNewSkill(ESkillType skillType)
+    {
+        mSkillMgr.AddSkill(1, skillType);
     }
 
     //奖励生命
@@ -160,9 +165,10 @@ public class Player : GameEntity
 
         if (mScore >= mNextRewardLife)
         {
-            Skill += (mScore / mNextRewardLife);
-            AudioManager.Instance.PlaySound((int) AudioConstant.LIFE_GET);
+            mScore += (mScore / mNextRewardLife);
+
             mNextRewardLife += REWARD_LIFE_CONDITION;
+            AudioManager.Instance.PlaySound((int) AudioConstant.LIFE_GET);
         }
     }
 }

@@ -77,7 +77,7 @@ public class EnemyFollower : Enemy
             Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
 
             //按照生命值比例大小生成粒子
-            Vector3 scaleByLife = Vector3.one * (1.0f - mLife / MAX_LIFE);
+            Vector3 scaleByLife = Vector3.one * (1.0f - Mathf.Clamp01(mLife / MAX_LIFE));
             GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, scaleByLife, this.transform.rotation);
             //销毁子弹
             Destroy(other.gameObject);

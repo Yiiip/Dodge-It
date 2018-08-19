@@ -17,12 +17,15 @@ public class PlayingUIScript : MonoBehaviour
 	private Vector3 mKeyboardHitAreaOriginPos;
 	public GameObject MainEnemies;
 	private PostProcessingController ppController;
+	public CustomImageEffect CustomRGBGlitchEffect;
 
 	public Player PlayerRef;
 	public GameObject MouseCursor;
 
 	public GameObject PlayingHUD;
 	public TextMeshProUGUI TextSocre;
+	public TextMeshProUGUI TextNoSkill;
+	public Image ImgSkill;
 	public GameObject ParentLifeIcons;
 	public GameObject ParentSkillIcons;
 	public GameObject PrefabLifeIcon;
@@ -78,6 +81,9 @@ public class PlayingUIScript : MonoBehaviour
 
 		SliderSound.value = AudioManager.Instance.SoundVolume;
 		SliderMusic.value = AudioManager.Instance.MusicVolume;
+
+		UIUtils.SetVisibility(MainMenu, true);
+		UIUtils.SetVisibility(PlayingHUD, false);
 	}
 
 	private void InitEvents()
@@ -164,11 +170,11 @@ public class PlayingUIScript : MonoBehaviour
 
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-#if UNITY_EDITOR
-				UnityEditor.EditorApplication.isPlaying = false;
-#else
-				Application.Quit();
-#endif
+				#if UNITY_EDITOR
+					UnityEditor.EditorApplication.isPlaying = false;
+				#else
+					Application.Quit();
+				#endif
 			}
 
 			if (Input.GetKeyDown(KeyCode.Space))
@@ -190,10 +196,13 @@ public class PlayingUIScript : MonoBehaviour
 				UIUtils.SetVisibility(PlayingHUD, true);
 				ppController.enableDepthOfField = false;
 				ppController.chromaticAberration.intensity = 0.0f;
+				CustomRGBGlitchEffect.enabled = false;
 				Destroy(MainEnemies);
 			}
+
 			MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0.0f);
 			MouseCursor.transform.Rotate(0.0f, 0.0f, 1.0f);
+
 			UpdateScoreUI();
 			UpdateLifeIcons();
 			UpdateSkillIcons();
@@ -268,12 +277,21 @@ public class PlayingUIScript : MonoBehaviour
 
 	private void UpdateSkillIcons()
 	{
-		if (mSkillIconVisibleCount != (byte) PlayerRef.Skill)
+		UIUtils.SetVisibility(TextNoSkill.gameObject, PlayerRef.SkillCount == 0);
+		
+		BaseSkill data = PlayerRef.SkillData;
+		UIUtils.SetVisibility(ImgSkill.gameObject, data != null);
+		if (data != null)
 		{
-			mSkillIconVisibleCount = (byte) PlayerRef.Skill;
+			UIUtils.SetImage(ImgSkill, data.spriteRes);
+		}
+
+		if (mSkillIconVisibleCount != (byte) PlayerRef.SkillCount)
+		{
+			mSkillIconVisibleCount = (byte) PlayerRef.SkillCount;
 			for (int i = mSkillIcons.Count; i >= 1; --i)
 			{
-				UIUtils.SetVisibility(mSkillIcons[i - 1], i <= PlayerRef.Skill);
+				UIUtils.SetVisibility(mSkillIcons[i - 1], i <= PlayerRef.SkillCount);
 			}
 		}
 		else

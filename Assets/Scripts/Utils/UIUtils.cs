@@ -23,7 +23,7 @@ public static class UIUtils
 
 	public static void SetImage(Image imageView, string spritePath)
 	{
-		SetImage(imageView, Resources.Load(spritePath, typeof(Sprite)) as Sprite);
+		SetImage(imageView, (Resources.Load<SpriteRenderer>(spritePath)).sprite);
 	}
 
 	public static void SetImage(Image imageView, Sprite sprite)
@@ -96,4 +96,43 @@ public static class UIUtils
 		SetParent(instantiation, parentTrans);
 		return instantiation;
 	}
+
+	public static void ScrollToTop(RectTransform rectTransform)
+    {
+        if (rectTransform != null) rectTransform.anchoredPosition = Vector2.zero;
+    }
+
+    public static void ScrollToTop(GridLayoutGroup gridLayoutGroup)
+    {
+        if (gridLayoutGroup != null) ScrollToTop(gridLayoutGroup.GetComponent<RectTransform>());
+    }
+
+    public static void ScrollToTop(VerticalLayoutGroup verticalLayoutGroup)
+    {
+        if (verticalLayoutGroup != null) ScrollToTop(verticalLayoutGroup.GetComponent<RectTransform>());
+    }
+
+    // 获取Camera的快照
+    public static Texture2D RenderRTImage(Camera cam)
+    {
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture.active = cam.targetTexture;
+        cam.Render();
+        Texture2D tex2d = new Texture2D(cam.targetTexture.width, cam.targetTexture.height);
+        tex2d.ReadPixels(new Rect(0, 0, cam.targetTexture.width, cam.targetTexture.height), 0, 0);
+        tex2d.Apply();
+        RenderTexture.active = currentRT;
+        return tex2d;
+    }
+
+    // 获取三维模型的实际大小
+    public static Vector3 Get3DModelSize(GameObject gameObject)
+    {
+        Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
+        if (mesh == null) return Vector3.zero;
+
+        Vector3 meshSize = mesh.bounds.size; //模型网格的大小
+        Vector3 scale = gameObject.transform.lossyScale; //放缩
+        return new Vector3(meshSize.x * scale.x, meshSize.y * scale.y, meshSize.z * scale.z); //游戏中的实际大小
+    }
 }

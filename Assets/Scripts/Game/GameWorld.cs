@@ -51,6 +51,8 @@ public class GameWorld : MonoBehaviour
             }
         }
 
+        UIUtils.SetVisibility(Player.gameObject, false);
+
         PlayBGM();
     }
 
