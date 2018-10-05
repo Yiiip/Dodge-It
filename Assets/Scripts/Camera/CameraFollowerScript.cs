@@ -12,7 +12,7 @@ public class CameraFollowerScript : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if (GameWorld.Instance.State == GameState.PLAYING && Camera.main.orthographicSize < 8.0f)
+        if (GameWorld.Instance.State == EGameState.PLAYING && Camera.main.orthographicSize < 8.0f)
         {
             Camera.main.orthographicSize += Time.deltaTime * 5.0f;
         }

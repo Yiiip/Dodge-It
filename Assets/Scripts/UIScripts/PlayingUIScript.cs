@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.PostProcessing.Utilities;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayingUIScript : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class PlayingUIScript : MonoBehaviour
 	public GameObject KeyboardHitArea;
 	private Vector3 mKeyboardHitAreaOriginPos;
 	public GameObject MainEnemies;
-	private PostProcessingController ppController;
 	public CustomImageEffect CustomRGBGlitchEffect;
 
 	public Player PlayerRef;
@@ -52,8 +51,6 @@ public class PlayingUIScript : MonoBehaviour
 		mTextHitStartAlpha = TextHitStart.transform.localScale.y;
 		if (mTextHitStartAlpha >= 1.0f) mTextHitStartAlphaFlag = true;
 		else if (mTextHitStartAlpha <= 0.2f) mTextHitStartAlphaFlag = false;
-
-		ppController = Camera.main.GetComponent<PostProcessingController>();
 	}
 
 	private void InitViews()
@@ -151,7 +148,7 @@ public class PlayingUIScript : MonoBehaviour
 
 	void Update()
 	{
-		if (GameWorld.Instance.State == GameState.MAIN_MENU)
+		if (GameWorld.Instance.State == EGameState.MAIN_MENU)
 		{
 			if (!Cursor.visible || MouseCursor.activeSelf)
 			{
@@ -163,8 +160,6 @@ public class PlayingUIScript : MonoBehaviour
 			{
 				UIUtils.SetVisibility(PlayingHUD, false);
 				UIUtils.SetVisibility(MainMenu, true);
-				ppController.enableDepthOfField = true;
-				ppController.chromaticAberration.intensity = 0.8f;
 			}
 			UpdateMainMenuUIEffects();
 
@@ -179,11 +174,11 @@ public class PlayingUIScript : MonoBehaviour
 
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				GameWorld.Instance.State = GameState.PLAYING;
+				GameWorld.Instance.State = EGameState.PLAYING;
 				AudioManager.Instance.PlaySound((int) AudioConstant.START);
 			}
 		}
-		else if (GameWorld.Instance.State == GameState.PLAYING)
+		else if (GameWorld.Instance.State == EGameState.PLAYING)
 		{
 			if (Cursor.visible)
 			{
@@ -194,8 +189,8 @@ public class PlayingUIScript : MonoBehaviour
 			{
 				UIUtils.SetVisibility(MainMenu, false);
 				UIUtils.SetVisibility(PlayingHUD, true);
-				ppController.enableDepthOfField = false;
-				ppController.chromaticAberration.intensity = 0.0f;
+				GameWorld.Instance.postProcessProfile.RemoveSettings<DepthOfField>();
+				GameWorld.Instance.postProcessProfile.GetSetting<ChromaticAberration>().intensity.value = 0.0f;
 				CustomRGBGlitchEffect.enabled = false;
 				Destroy(MainEnemies);
 			}

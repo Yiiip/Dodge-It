@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.PostProcessing.Utilities;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Player : GameEntity
 {
@@ -23,7 +23,7 @@ public class Player : GameEntity
     private int mNextRewardScore, mNextRewardLife;
     private float mSkillCDTimer;
 
-    private PostProcessingController ppController;
+    private PostProcessProfile pp;
 
     public int Score
     {
@@ -58,7 +58,7 @@ public class Player : GameEntity
         this.mNextRewardLife = REWARD_LIFE_CONDITION;
         this.mSkillCDTimer = 0.0f;
 
-        this.ppController = Camera.main.GetComponent<PostProcessingController>();
+        this.pp = GameWorld.Instance.postProcessProfile;
     }
 
     protected virtual void Start()
@@ -112,8 +112,8 @@ public class Player : GameEntity
             mSkillCDTimer -= Time.deltaTime;
 
             //控制屏幕特效
-            ppController.chromaticAberration.intensity = mSkillCDTimer / MAX_SKILL_CD_TIME;
-            ppController.vignette.smoothness = mSkillCDTimer / MAX_SKILL_CD_TIME;
+            pp.GetSetting<ChromaticAberration>().intensity.value = mSkillCDTimer / MAX_SKILL_CD_TIME;
+            pp.GetSetting<Vignette>().smoothness.value = mSkillCDTimer / MAX_SKILL_CD_TIME;
 
             //控制声音
             if (musicVolumeBeforeSkill == -1f) musicVolumeBeforeSkill = AudioManager.Instance.MusicVolume;

@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GameWorld : MonoBehaviour
 {
     private static GameWorld sInstance;
 
-    private GameState mState;
-    public Player Player;
-    public WaveEngine WaveEngine;
-    public GameObject EffectPools;
+    [SerializeField] private EGameState mState;
+    [SerializeField] public Player Player;
+    [SerializeField] public WaveEngine WaveEngine;
+    [SerializeField] private PostProcessVolume mPostProcessVolume;
+    [HideInInspector] public PostProcessProfile postProcessProfile;
+    [SerializeField] public GameObject EffectPools;
     private EffectPool mHitEffectPool;
 
     public static GameWorld Instance
@@ -17,7 +20,7 @@ public class GameWorld : MonoBehaviour
         get {  return sInstance; }
     }
 
-    public GameState State
+    public EGameState State
     {
         get { return mState; }
         set { mState = value; }
@@ -40,7 +43,8 @@ public class GameWorld : MonoBehaviour
     }
 
     private void Start() {
-        mState = GameState.MAIN_MENU;
+        mState = EGameState.MAIN_MENU;
+        postProcessProfile = mPostProcessVolume.profile;
 
         EffectPool[] effectPools = EffectPools.GetComponents<EffectPool>();
         for (int i = 0; i < effectPools.Length; i++)
@@ -62,7 +66,7 @@ public class GameWorld : MonoBehaviour
     }
 
     private void Update() {
-        if (mState == GameState.PLAYING)
+        if (mState == EGameState.PLAYING)
         {
             if (!Player.gameObject.activeSelf && !WaveEngine.gameObject.activeSelf)
             {
@@ -77,7 +81,7 @@ public class GameWorld : MonoBehaviour
     }
 }
 
-public enum GameState
+public enum EGameState
 {
     MAIN_MENU,
     PLAYING
