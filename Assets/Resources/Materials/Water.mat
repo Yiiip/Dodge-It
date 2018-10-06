@@ -96,7 +96,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_1CEA716E: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0}
-    - Color_8288D963: {r: 0, g: 0.15686275, b: 0.36078432, a: 0}
+    - Color_8288D963: {r: 0, g: 0.318914, b: 0.7264151, a: 0}
     - Color_A5B6BEDB: {r: 1, g: 1, b: 1, a: 0}
     - Color_DE9C307C: {r: 1, g: 0, b: 0, a: 0}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
