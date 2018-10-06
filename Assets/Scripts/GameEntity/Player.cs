@@ -68,11 +68,19 @@ public class Player : GameEntity
 
     protected virtual void Update()
     {
+        //死亡
         if (mLife <= 0)
         {
+            //记录“上次得分”
+            PlayerPrefs.SetInt("_Last_Score_", mScore);
+            //记录“最高分”
+            if (mScore > PlayerPrefs.GetInt("_High_Score_"))
+            {
+                PlayerPrefs.SetInt("_High_Score_", mScore);
+            }
             AudioManager.Instance.StopMusic();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            // Debug.Log("Life = 0. GAME OVER !");
+            Debug.Log("Player.Life == 0. GAME OVER !");
         }
 
         UpdateVelocityByKeyboard();

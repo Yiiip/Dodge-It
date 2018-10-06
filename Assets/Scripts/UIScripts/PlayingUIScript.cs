@@ -11,6 +11,8 @@ public class PlayingUIScript : MonoBehaviour
 
 	public GameObject MainMenu;
 	public TextMeshProUGUI TextHitStart;
+	public TextMeshProUGUI TextHighScore;
+	public TextMeshProUGUI TextLastScore;
 	private float mTextHitStartAlpha;
 	private bool mTextHitStartAlphaFlag;
 	public GameObject KeyboardHitArea;
@@ -81,6 +83,9 @@ public class PlayingUIScript : MonoBehaviour
 
 		UIUtils.SetVisibility(MainMenu, true);
 		UIUtils.SetVisibility(PlayingHUD, false);
+
+		UIUtils.SetText(TextHighScore, "Best Score: <#FFFF00>" + PlayerPrefs.GetInt("_High_Score_", 0) + "</color>");
+		UIUtils.SetText(TextLastScore, "Last Score: <#FFFF00>" + PlayerPrefs.GetInt("_Last_Score_", 0) + "</color>");
 	}
 
 	private void InitEvents()
@@ -148,59 +153,66 @@ public class PlayingUIScript : MonoBehaviour
 
 	void Update()
 	{
-		if (GameWorld.Instance.State == EGameState.MAIN_MENU)
+		switch (GameWorld.Instance.State)
 		{
-			if (!Cursor.visible || MouseCursor.activeSelf)
+			case EGameState.MAIN_MENU:
 			{
-				Cursor.visible = true;
-				MouseCursor.transform.rotation = Quaternion.identity;
-				UIUtils.SetVisibility(MouseCursor, false);
-			}
-			if (!UIUtils.IsVisibility(MainMenu))
-			{
-				UIUtils.SetVisibility(PlayingHUD, false);
-				UIUtils.SetVisibility(MainMenu, true);
-			}
-			UpdateMainMenuUIEffects();
+				if (!Cursor.visible || MouseCursor.activeSelf)
+				{
+					Cursor.visible = true;
+					MouseCursor.transform.rotation = Quaternion.identity;
+					UIUtils.SetVisibility(MouseCursor, false);
+				}
+				if (!UIUtils.IsVisibility(MainMenu))
+				{
+					UIUtils.SetVisibility(PlayingHUD, false);
+					UIUtils.SetVisibility(MainMenu, true);
+				}
+				UpdateMainMenuUIEffects();
 
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				#if UNITY_EDITOR
-					UnityEditor.EditorApplication.isPlaying = false;
-				#else
-					Application.Quit();
-				#endif
-			}
+				if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					#if UNITY_EDITOR
+						UnityEditor.EditorApplication.isPlaying = false;
+					#else
+						Application.Quit();
+					#endif
+				}
 
-			if (Input.GetKeyDown(KeyCode.Space))
-			{
-				GameWorld.Instance.State = EGameState.PLAYING;
-				AudioManager.Instance.PlaySound((int) AudioConstant.START);
+				if (Input.GetKeyDown(KeyCode.Space))
+				{
+					GameWorld.Instance.State = EGameState.PLAYING;
+					AudioManager.Instance.PlaySound((int) AudioConstant.START);
+				}
+				break;
 			}
-		}
-		else if (GameWorld.Instance.State == EGameState.PLAYING)
-		{
-			if (Cursor.visible)
+			case EGameState.PLAYING:
 			{
-				Cursor.visible = false;
-				UIUtils.SetVisibility(MouseCursor, true);
-			}
-			if (!UIUtils.IsVisibility(PlayingHUD))
-			{
-				UIUtils.SetVisibility(MainMenu, false);
-				UIUtils.SetVisibility(PlayingHUD, true);
-				GameWorld.Instance.postProcessProfile.RemoveSettings<DepthOfField>();
-				GameWorld.Instance.postProcessProfile.GetSetting<ChromaticAberration>().intensity.value = 0.0f;
-				CustomRGBGlitchEffect.enabled = false;
-				Destroy(MainEnemies);
-			}
+				if (Cursor.visible)
+				{
+					Cursor.visible = false;
+					UIUtils.SetVisibility(MouseCursor, true);
+				}
+				if (!UIUtils.IsVisibility(PlayingHUD))
+				{
+					UIUtils.SetVisibility(MainMenu, false);
+					UIUtils.SetVisibility(PlayingHUD, true);
+					GameWorld.Instance.postProcessProfile.RemoveSettings<DepthOfField>();
+					GameWorld.Instance.postProcessProfile.GetSetting<ChromaticAberration>().intensity.value = 0.0f;
+					CustomRGBGlitchEffect.enabled = false;
+					Destroy(MainEnemies);
+				}
 
-			MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0.0f);
-			MouseCursor.transform.Rotate(0.0f, 0.0f, 1.0f);
+				MouseCursor.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0.0f);
+				MouseCursor.transform.Rotate(0.0f, 0.0f, 1.0f);
 
-			UpdateScoreUI();
-			UpdateLifeIcons();
-			UpdateSkillIcons();
+				UpdateScoreUI();
+				UpdateLifeIcons();
+				UpdateSkillIcons();
+				break;
+			}
+			default:
+				break;
 		}
 	}
 
@@ -250,7 +262,7 @@ public class PlayingUIScript : MonoBehaviour
 		}
 		UIUtils.SetText(
 			TextSocre,
-			STR_SCORE + (score == 0 ? "" : score + "") + "<#A0A0A0>" + zeroStrs + "</color>"
+			STR_SCORE + (score == 0 ? "" : score + "") + "<#BDBDBD>" + zeroStrs + "</color>"
 		);
 	}
 
