@@ -20,7 +20,8 @@ public class WaveEngine : MonoBehaviour {
 
     public Wave[] waves;
     public Transform[] spawnPositions;
-    protected int nextWave = 0;
+    protected int mWaveIndex = 0;
+    public int WaveIndex { get { return mWaveIndex; } }
 
     public float timeBetweenWaves = 5.0f;
     protected float waveTimer;
@@ -55,7 +56,7 @@ public class WaveEngine : MonoBehaviour {
         {
             if (state != SpawnState.SPAWNING)
             {
-                StartCoroutine(SpawnWave(waves[nextWave]));
+                StartCoroutine(SpawnWave(waves[mWaveIndex]));
             }
         }
         else
@@ -79,7 +80,7 @@ public class WaveEngine : MonoBehaviour {
 
     protected IEnumerator SpawnWave(Wave wave)
     {
-        Debug.Log("-> Wave " + nextWave + ": " + wave.name);
+        Debug.Log("-> Wave " + mWaveIndex + ": " + wave.name);
         state = SpawnState.SPAWNING;
 
         for (int i = 0; i < wave.count; i++)
@@ -104,9 +105,14 @@ public class WaveEngine : MonoBehaviour {
 
     protected void WaveCompleted()
     {
-        Debug.Log("Wave " + nextWave + " completed!");
+        Debug.Log("Wave " + mWaveIndex + " completed!");
         state = SpawnState.COUNTING;
         waveTimer = timeBetweenWaves;
-        nextWave = (nextWave + 1) % waves.Length;
+        mWaveIndex = (mWaveIndex + 1) % waves.Length;
+    }
+
+    public Wave GetCurrentWave()
+    {
+        return waves[mWaveIndex];
     }
 }

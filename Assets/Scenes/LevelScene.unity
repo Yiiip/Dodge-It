@@ -6099,6 +6099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 448475166}
   - component: {fileID: 448475168}
+  - component: {fileID: 448475167}
   m_Layer: 0
   m_Name: __WaveEngine
   m_TagString: Untagged
@@ -6124,6 +6125,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &448475167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 448475165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4989c25b471401e4dbe227927ecbd15f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveEngine: {fileID: 448475168}
 --- !u!114 &448475168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6136,22 +6149,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - name: Begin
+  - id: 0
+    name: Begin
     enemy: {fileID: 114420765109188604, guid: fee59a11f4c36034a88270f4ed7e3587, type: 2}
     count: 2
     rate: 1
     difficulty: 0
-  - name: Begin More
+  - id: 0
+    name: Begin More
     enemy: {fileID: 114420765109188604, guid: fee59a11f4c36034a88270f4ed7e3587, type: 2}
     count: 4
     rate: 2
     difficulty: 1
-  - name: Skill Tutorial
+  - id: 0
+    name: Skill Tutorial
     enemy: {fileID: 114776025025294174, guid: bc3222a481cd1364cae5a2501fc76bb9, type: 2}
     count: 15
     rate: 4
     difficulty: 2
-  - name: Level 1-1
+  - id: 0
+    name: Level 1-1
     enemy: {fileID: 114420765109188604, guid: fee59a11f4c36034a88270f4ed7e3587, type: 2}
     count: 15
     rate: 3
