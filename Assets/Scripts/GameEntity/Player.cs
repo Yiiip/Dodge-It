@@ -11,7 +11,6 @@ public class Player : GameEntity
     public static int MAX_SCORE = 999999;
     public static int MAX_SKILL = 8;
     public static int MAX_BULLET_TYPES = 1;
-    public static int REWARD_SKILL_CONDITION = 50;
     public static int REWARD_LIFE_CONDITION = 10000;
     public static float MAX_SKILL_CD_TIME = 2.0f;
 
@@ -20,7 +19,7 @@ public class Player : GameEntity
     private int mScore;
     private int mBulletLevel;
     private SkillManager mSkillMgr;
-    private int mNextRewardScore, mNextRewardLife;
+    private int mNextRewardLife;
     private float mSkillCDTimer;
 
     private PostProcessProfile pp;
@@ -30,7 +29,6 @@ public class Player : GameEntity
         set
         {
             mScore = Mathf.Clamp(value, 0, MAX_SCORE);
-            RewardSkill();
             RewardLife();
         }
         get { return mScore; }
@@ -54,7 +52,6 @@ public class Player : GameEntity
         this.mScore = 0;
         this.mSkillMgr = gameObject.GetComponent<SkillManager>();
         this.mBulletLevel = 0;
-        this.mNextRewardScore = REWARD_SKILL_CONDITION;
         this.mNextRewardLife = REWARD_LIFE_CONDITION;
         this.mSkillCDTimer = 0.0f;
 
@@ -145,27 +142,6 @@ public class Player : GameEntity
         }
     }
 
-    //奖励技能
-    private void RewardSkill()
-    {
-        if (mScore <= 0) return;
-
-        if (mScore >= mNextRewardScore)
-        {
-            // mSkillMgr.AddSkill(mScore / mNextRewardScore);
-            mSkillMgr.AddSkill(mScore / mNextRewardScore, ESkillType.SKILL_01); //TODO
-
-            mNextRewardScore += REWARD_SKILL_CONDITION;
-            AudioManager.Instance.PlaySound((int) AudioConstant.SKILL_GET);
-        }
-    }
-
-    //得到新技能
-    public void GetNewSkill(ESkillType skillType)
-    {
-        mSkillMgr.AddSkill(1, skillType);
-    }
-
     //奖励生命
     private void RewardLife()
     {
@@ -178,5 +154,10 @@ public class Player : GameEntity
             mNextRewardLife += REWARD_LIFE_CONDITION;
             AudioManager.Instance.PlaySound((int) AudioConstant.LIFE_GET);
         }
+    }
+
+    public SkillManager GetSkillMgr()
+    {
+        return mSkillMgr;
     }
 }

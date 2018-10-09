@@ -74,7 +74,7 @@ public class EnemyFollower : Enemy
         {
             --mLife;
 
-            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
+            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithRandomCount(); //震屏
 
             //按照生命值比例大小生成粒子
             Vector3 scaleByLife = Vector3.one * (1.0f - Mathf.Clamp01(mLife / MAX_LIFE));

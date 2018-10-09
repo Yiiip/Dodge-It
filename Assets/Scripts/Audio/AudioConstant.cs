@@ -9,4 +9,5 @@ public enum AudioConstant
     ENEMY_DESTORY01,
     SKILL01,
     SKILL02,
+    GET01,
 }

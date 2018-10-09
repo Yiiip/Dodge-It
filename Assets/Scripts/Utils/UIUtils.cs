@@ -6,37 +6,37 @@ using TMPro;
 
 public static class UIUtils
 {
-	public static void SetText(Text textView, string text)
+	public static void SetText(this Text textView, string text)
 	{
 		if (textView != null) textView.text = text;
 	}
 
-	public static void SetText(InputField inputField, string text)
+	public static void SetText(this InputField inputField, string text)
 	{
 		if (inputField != null) inputField.text = text;
 	}
 
-	public static void SetText(TextMeshProUGUI textPro, string text)
+	public static void SetText(this TextMeshProUGUI textPro, string text)
 	{
 		if (textPro != null) textPro.text = text;
 	}
 
-	public static void SetImage(Image imageView, string spritePath)
+	public static void SetImage(this Image imageView, string spritePath)
 	{
-		SetImage(imageView, (Resources.Load<SpriteRenderer>(spritePath)).sprite);
+		SetImage(imageView, SpriteManager.Instance.GetSprite(spritePath));
 	}
 
-	public static void SetImage(Image imageView, Sprite sprite)
+	public static void SetImage(this Image imageView, Sprite sprite)
 	{
 		if (imageView != null) imageView.sprite = sprite;
 	}
 
-	public static void SetImageFill(Image imageView, float fillAmount)
+	public static void SetImageFill(this Image imageView, float fillAmount)
 	{
 		if (imageView != null) imageView.fillAmount = fillAmount;
 	}
 
-	public static void SetSliderValues(Slider slider, float min, float max, float value)
+	public static void SetSliderValues(this Slider slider, float min, float max, float value)
 	{
 		if (slider != null)
 		{
@@ -46,22 +46,22 @@ public static class UIUtils
 		}
 	}
 
-	public static void SetColor(Graphic ui, Color color)
+	public static void SetColor(this Graphic ui, Color color)
 	{
 		if (ui != null) ui.color = color;
 	}
 
-	public static void SetInteractable(Selectable ui, bool interactable)
+	public static void SetInteractable(this Selectable ui, bool interactable)
 	{
 		if (ui != null) ui.interactable = interactable;
 	}
 
-	public static void SetVisibility(GameObject gameObject, bool visible)
+	public static void SetVisibility(this GameObject gameObject, bool visible)
 	{
 		if (gameObject != null) gameObject.SetActive(visible);
 	}
 
-	public static bool IsVisibility(GameObject gameObject)
+	public static bool IsVisibility(this GameObject gameObject)
 	{
 		if (gameObject != null) return gameObject.activeSelf;
 		else return false;
@@ -97,17 +97,17 @@ public static class UIUtils
 		return instantiation;
 	}
 
-	public static void ScrollToTop(RectTransform rectTransform)
+	public static void ScrollToTop(this RectTransform rectTransform)
     {
         if (rectTransform != null) rectTransform.anchoredPosition = Vector2.zero;
     }
 
-    public static void ScrollToTop(GridLayoutGroup gridLayoutGroup)
+    public static void ScrollToTop(this GridLayoutGroup gridLayoutGroup)
     {
         if (gridLayoutGroup != null) ScrollToTop(gridLayoutGroup.GetComponent<RectTransform>());
     }
 
-    public static void ScrollToTop(VerticalLayoutGroup verticalLayoutGroup)
+    public static void ScrollToTop(this VerticalLayoutGroup verticalLayoutGroup)
     {
         if (verticalLayoutGroup != null) ScrollToTop(verticalLayoutGroup.GetComponent<RectTransform>());
     }
@@ -126,7 +126,7 @@ public static class UIUtils
     }
 
     // 获取三维模型的实际大小
-    public static Vector3 Get3DModelSize(GameObject gameObject)
+    public static Vector3 Get3DModelSize(this GameObject gameObject)
     {
         Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
         if (mesh == null) return Vector3.zero;

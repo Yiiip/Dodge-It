@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
 
     private string PREFS_SOUND_VOLUME = "SoundVolume";
 
-    private int poolCount = 8; // 对象池数量
+    private int poolCount = 16; // 对象池数量
 
     public float MusicVolume { get { return musicVolume; } }
     public float SoundVolume { get { return soundVolume; } }
@@ -57,6 +57,7 @@ public class AudioManager : MonoBehaviour
             { (int) AudioConstant.ENEMY_DESTORY01, "Audio/SFX/Enemy_Destory01" },
             { (int) AudioConstant.SKILL01, "Audio/SFX/Skill01" },
             { (int) AudioConstant.SKILL02, "Audio/SFX/Skill02" },
+            { (int) AudioConstant.GET01, "Audio/SFX/Get01" },
         };
 
         musicAudioSource = gameObject.AddComponent<AudioSource>();

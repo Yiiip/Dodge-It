@@ -24,7 +24,7 @@ public class CameraShaker : MonoBehaviour
         }
     }
 
-    public void ShakeCameraWithCount()
+    public void ShakeCameraWithRandomCount()
     {
         mOriginalPos = curCamera.transform.position;
         shakeCount = Random.Range(5, 14);

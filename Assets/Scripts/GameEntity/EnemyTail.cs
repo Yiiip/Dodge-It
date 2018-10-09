@@ -62,7 +62,7 @@ public class EnemyTail : Enemy
             {
                 mTarget.Score += mScoreValue;
                 GameWorld.Instance.HitEffectPool.PopEffect(this.transform.position, Vector3.one, this.transform.rotation);
-                Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(); //震屏
+                Camera.main.GetComponent<CameraShaker>().ShakeCameraWithRandomCount(); //震屏
                 AudioManager.Instance.PlaySound((int) AudioConstant.ENEMY_DESTORY01);
                 Destroy(this.gameObject);
             }

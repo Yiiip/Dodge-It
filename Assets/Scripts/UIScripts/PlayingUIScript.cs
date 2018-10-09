@@ -290,7 +290,7 @@ public class PlayingUIScript : MonoBehaviour
 		UIUtils.SetVisibility(ImgSkill.gameObject, data != null);
 		if (data != null)
 		{
-			UIUtils.SetImage(ImgSkill, data.spriteRes);
+			ImgSkill.SetImage(data.spriteRes);
 		}
 
 		if (mSkillIconVisibleCount != (byte) PlayerRef.SkillCount)
