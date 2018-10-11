@@ -136,7 +136,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 31093476}
   m_LocalRotation: {x: 0, y: 0, z: -0.009424705, w: 0.9999556}
-  m_LocalPosition: {x: 0, y: 10.14, z: 0}
+  m_LocalPosition: {x: 0, y: 10.25, z: 0}
   m_LocalScale: {x: 33.97063, y: 3.2875, z: 1}
   m_Children: []
   m_Father: {fileID: 385027666}
@@ -167,48 +167,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1001 &34589217
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 5.1998
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0.1898
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4318289152707426, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 308ce2b770d22ca4f850f3a7dbe56946, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &77609483
 GameObject:
   m_ObjectHideFlags: 0
@@ -6149,26 +6107,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - id: 0
-    name: Begin
+  - name: Begin
     enemy: {fileID: 114420765109188604, guid: fee59a11f4c36034a88270f4ed7e3587, type: 2}
     count: 2
     rate: 1
     difficulty: 0
-  - id: 0
-    name: Begin More
+  - name: Begin More
     enemy: {fileID: 114420765109188604, guid: fee59a11f4c36034a88270f4ed7e3587, type: 2}
     count: 4
     rate: 2
     difficulty: 1
-  - id: 0
-    name: Skill Tutorial
+  - name: Skill Tutorial
     enemy: {fileID: 114776025025294174, guid: bc3222a481cd1364cae5a2501fc76bb9, type: 2}
     count: 15
     rate: 4
     difficulty: 2
-  - id: 0
-    name: Level 1-1
+  - name: Level 1-1
     enemy: {fileID: 114420765109188604, guid: fee59a11f4c36034a88270f4ed7e3587, type: 2}
     count: 15
     rate: 3
@@ -17123,7 +17077,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1758310131}
   m_LocalRotation: {x: -0, y: -0, z: -0.0032365778, w: 0.99999475}
-  m_LocalPosition: {x: 16.1, y: 0.9, z: 0}
+  m_LocalPosition: {x: 16.17, y: 0.9, z: 0}
   m_LocalScale: {x: -4.246231, y: 18.245604, z: 1}
   m_Children: []
   m_Father: {fileID: 385027666}

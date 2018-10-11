@@ -27,6 +27,7 @@ public class WaveEngine : MonoBehaviour {
     protected float waveTimer;
     protected float searchAliveTimer = 1.0f;
     protected SpawnState state;
+    public SpawnState State { get { return state; } }
 
     protected void Start() {
         waveTimer = timeBetweenWaves;
@@ -65,7 +66,7 @@ public class WaveEngine : MonoBehaviour {
         }
     }
 
-    protected bool IsEnemyAlive()
+    public bool IsEnemyAlive()
     {
         searchAliveTimer -= Time.deltaTime;
 

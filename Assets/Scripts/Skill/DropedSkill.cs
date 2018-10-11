@@ -1,11 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core;
 using UnityEngine;
 
 public class DropedSkill : MonoBehaviour
 {
 	[SerializeField] private ESkillType dropedSkillType;
 	[SerializeField] private SpriteRenderer spriteIcon;
+
+	private void Awake()
+	{
+		var playerPos = GameWorld.Instance.Player.transform.position;
+		// Debug.Log("playerPos:" + playerPos.ToString());
+		// Debug.Log("dropedPos:" + transform.position.ToString());
+		var dv = (transform.position - playerPos).normalized;
+		DOTweenAnimation[] doTweenAnims = GetComponents<DOTweenAnimation>();
+		foreach (var anim in doTweenAnims)
+		{
+			if (anim.id == "3")
+			{
+				var l = Random.Range(0.5f, 1.0f);
+				anim.endValueV3 = new Vector3(dv.x * l, dv.y * l, 0.0f);
+				// Debug.Log(anim.endValueV3.ToString());
+				break;
+			}
+		}
+	}
 
 	public void Init(ESkillType skillType)
 	{
@@ -14,7 +35,7 @@ public class DropedSkill : MonoBehaviour
 		switch (dropedSkillType)
 		{
 			case ESkillType.SKILL_01:
-				spriteIcon.sprite = Resources.Load<SpriteRenderer>("sSkillIcon01").sprite;
+				spriteIcon.sprite = SpriteManager.Instance.GetSprite("Sprites/sSkillIcon01");
 				break;
 			case ESkillType.SKILL_02:
 			case ESkillType.NONE:

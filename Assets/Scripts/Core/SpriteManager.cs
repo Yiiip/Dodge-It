@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpriteManager
 {
 	private static SpriteManager sInstance;
-	private Dictionary<string, Sprite> mSpriteCache;
+	private Dictionary<string, Sprite> mSpriteCache = new Dictionary<string, Sprite>();
 
 	public static SpriteManager Instance
 	{
