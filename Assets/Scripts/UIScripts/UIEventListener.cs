@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIEventListener : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class UIEventListener : EventTrigger
 {
 	// 定义事件代理
 	public delegate void UIEventProxy(GameObject gameObject);
@@ -41,17 +41,17 @@ public class UIEventListener : MonoBehaviour, IPointerClickHandler, IPointerEnte
 		slider.onValueChanged.AddListener(valueChangedListener);
 	}
 
-	public void OnPointerClick(PointerEventData eventData)
+	public override void OnPointerClick(PointerEventData eventData)
 	{
 		if (OnClick != null) OnClick(this.gameObject);
 	}
 
-	public void OnPointerEnter(PointerEventData eventData)
+	public override void OnPointerEnter(PointerEventData eventData)
 	{
 		if (OnMouseEnter != null) OnMouseEnter(this.gameObject);
 	}
 
-	public void OnPointerExit(PointerEventData eventData)
+	public override void OnPointerExit(PointerEventData eventData)
 	{
 		if (OnMouseExit != null) OnMouseExit(this.gameObject);
 	}

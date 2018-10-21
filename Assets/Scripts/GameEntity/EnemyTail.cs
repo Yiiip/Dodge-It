@@ -101,7 +101,7 @@ public class EnemyTail : Enemy
                     return;
                 }
             }
-            ContactPoint2D contactPoint = other.contacts[0];
+            ContactPoint2D contactPoint = other.GetContact(0);
             // Debug.Log("法线" + contactPoint.normal);
             // Debug.Log("反弹前" + mDirVec);
             mDirVec = Vector2.Reflect(mDirVec, contactPoint.normal); //反弹

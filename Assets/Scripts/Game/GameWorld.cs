@@ -14,6 +14,7 @@ public class GameWorld : MonoBehaviour
     [HideInInspector] public PostProcessProfile postProcessProfile;
     [SerializeField] public GameObject EffectPools;
     private EffectPool mHitEffectPool;
+    private EffectPool mCollideBoundEffectPool;
 
     public static GameWorld Instance
     {
@@ -29,6 +30,10 @@ public class GameWorld : MonoBehaviour
     public EffectPool HitEffectPool
     {
         get { return mHitEffectPool; }
+    }
+    public EffectPool CollideBoundEffectPool
+    {
+        get { return mCollideBoundEffectPool; }
     }
 
     private void Awake() {
@@ -52,6 +57,10 @@ public class GameWorld : MonoBehaviour
             if (effectPools[i].PoolTag.Equals("Hit"))
             {
                 mHitEffectPool = effectPools[i];
+            }
+            else if (effectPools[i].PoolTag.Equals("WithBounds"))
+            {
+                mCollideBoundEffectPool = effectPools[i];
             }
         }
 

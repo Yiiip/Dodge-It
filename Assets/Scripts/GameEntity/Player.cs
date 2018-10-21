@@ -160,4 +160,13 @@ public class Player : GameEntity
     {
         return mSkillMgr;
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.collider.CompareTag("MapBound"))
+        {
+            GameWorld.Instance.CollideBoundEffectPool.PopEffect(other.GetContact(0).point, Vector3.one, Quaternion.identity);
+            Camera.main.GetComponent<CameraShaker>().ShakeCameraWithCount(3);
+        }
+    }
 }
