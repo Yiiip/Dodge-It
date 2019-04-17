@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillBullet01 : MonoBehaviour
 {
-    public float Speed;
+    public float Speed = 14f;
 
     private Vector2 mStartPos;
     private Vector2 mTargetPos;
